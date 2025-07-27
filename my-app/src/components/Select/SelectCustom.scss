@@ -1,0 +1,19 @@
+.custom-select {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  width: 100%;
+
+  option {
+    background-color: #800000;
+    color: white;
+    padding: 15px;
+    min-height: 40px;
+  }
+}

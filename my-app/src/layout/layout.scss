@@ -1,0 +1,18 @@
+.layout {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.main_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    margin-top: 105px;
+    margin-left: 0;
+    left: 0;
+}
+

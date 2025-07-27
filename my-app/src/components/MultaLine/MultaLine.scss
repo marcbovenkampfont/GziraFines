@@ -1,0 +1,45 @@
+.multa-line {
+    width: 100%;
+    max-width: 400px;
+    // background-color: blue;
+    display: flex;
+    border: 1px solid black;
+    
+    &.headerTable{
+        background-color: grey;
+    }
+
+    &__name {
+        width: 175px;
+        padding: 4px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__cost {
+        padding: 4px;
+        width: 50px;
+        text-align: center;
+    }
+    
+    &__date {
+        padding: 4px;
+        width: 50px;
+        text-align: center;
+    }
+    
+    &__mins-late {
+        padding: 4px;
+        width: 50px;
+        text-align: center;
+        
+    }
+    
+    &__total {
+        padding: 4px;
+        width: 50px;
+        text-align: right;
+
+    }
+}
