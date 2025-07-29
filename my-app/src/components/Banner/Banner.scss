@@ -1,0 +1,26 @@
+.banner {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    
+    &-container {
+        width: 250px;
+        height: 50px;
+        margin: auto;
+        border: 1px solid black;
+        border-radius: 6px;
+        text-align: center;
+        line-height: 50px;
+
+        &__success {
+            background-color: green;
+        }
+    
+        &__fail {
+            background-color: red;
+        }
+    }
+
+}

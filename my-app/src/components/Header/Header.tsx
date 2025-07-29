@@ -3,12 +3,16 @@ import gziraLogo from '../../assets/gzira_shield-removebg-preview.png'
 import "./Header.scss"
 import { APP_ROUTES } from "../../shared/constants/appRoutes";
 import { useNavigate } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 
 const Header = () => {
 
     const { player, isAdmin } = useAuth();
 
     const navigate = useNavigate();
+
+    const resumeMatch = useMatch(APP_ROUTES.resume);
+    const addMultaMatch = useMatch(APP_ROUTES.addMulta);
 
     const getIniciales = () => {
         const words = player?.name.trim().split(/\s+/)
@@ -30,9 +34,8 @@ const Header = () => {
             </div>
 
             <div className="header_menu">
-                <div onClick={() => navigate(APP_ROUTES.home)}>Home</div>
-                <div onClick={() => navigate(APP_ROUTES.resume)}>Resume</div>
-                {isAdmin && <div onClick={() => console.log("Add Multa")}>Add multa</div>}
+                <div className={`header_menu_option${resumeMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.resume)}>RESUME</div>
+                {isAdmin && <div className={`header_menu_option${addMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.addMulta)}>ADD FINE</div>}
             </div>
         </>
     )

@@ -18,7 +18,7 @@ export default function Resume() {
     return <p>You are not logged in</p>
   }
 
-  const getTotal = (): number => {
+  const getTotalPending = (): number => {
     let total = 0;
     multas.filter((m) => m.paid === false).forEach((multa) => {
       total += getMoneyFromMulta(multa.rule, multa.minsLate);
@@ -51,7 +51,7 @@ export default function Resume() {
       ? <Loader/>
       :<div className='resume-multas'>
         <div className='resume-multas__total'>
-          Debt: <a className='resume-multas__total-price'>{moneyFormat(getTotal())}</a>
+          Debt: <a className='resume-multas__total-price'>{moneyFormat(getTotalPending())}</a>
         </div>
         {multas.length > 0
           ? <>
@@ -60,8 +60,11 @@ export default function Resume() {
               <MultaLine key={multa.player + '' + multa.rule + multa.date} multa={multa}/>
             ))}
           </>
-          : <div>Lucky you, don't have any multa to pay right now</div>
-      }
+          : <div>Lucky you, don't have any fine to pay right now</div>
+        }
+        {/* <div className='resume-multas__pending'>
+          Comming soon ----&gt; Already paid fines
+        </div> */}
       </div>
     }
     </div>

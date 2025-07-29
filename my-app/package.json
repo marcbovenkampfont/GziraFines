@@ -3,16 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://usuario.github.io/GziraFines",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "vite --port 3030 --base /gzira/fines/",
+    "start": "vite --port 3030 --base /GziraFines/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
+    "motion": "^12.23.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.1",

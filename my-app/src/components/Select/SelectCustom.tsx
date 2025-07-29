@@ -1,31 +1,46 @@
 import React from "react";
 import "./SelectCustom.scss";
-import type { Player } from "../../shared/types/players.types";
-import { getPlayerFromName } from "../../utils/multaCalculation";
 
-type SelectProps = {
-  options: Player[];
-  onChangePlayer: (player: Player | undefined) => void;
+type SelectProps<T> = {
+  options: T[];
+  getOptionLabel: (option: T) => string;
+  getOptionValue: (option: T) => string;
+  onChange: (selected: T | undefined) => void;
+  value?: T;
+  placeholder?: string;
 };
 
+function Select<T>({
+  options,
+  getOptionLabel,
+  getOptionValue,
+  onChange,
+  value,
+  placeholder = "Select an option...",
+}: SelectProps<T>) {
 
+  const selectedValue = value ? getOptionValue(value) : "";
 
-const Select: React.FC<SelectProps> = ({ options, onChangePlayer }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    const selected = options.find((opt) => getOptionValue(opt) === selectedValue);
+    onChange(selected);
+  };
 
   return (
     <select
       id="selector"
       className="custom-select"
-      onChange={e => onChangePlayer && onChangePlayer(getPlayerFromName(e.target.value))}
-      defaultValue=""
+      onChange={handleChange}
+      value={selectedValue}
     >
       <option value="" disabled hidden>
-        Selecciona un jugador...
+        {placeholder}
       </option>
 
-      {options.map((player, index) => (
-        <option key={index} value={player.name}>
-          {player.name} - #{player.number}
+      {options.map((option, index) => (
+        <option key={index} value={getOptionValue(option)}>
+          {getOptionLabel(option)}
         </option>
       ))}
     </select>

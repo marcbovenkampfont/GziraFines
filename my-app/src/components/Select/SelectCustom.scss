@@ -1,6 +1,6 @@
 .custom-select {
-  background-color: transparent;
-  color: white;
+  background-color: #ADD8E6;
+  color: black;
   border: 1px solid white;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -8,11 +8,11 @@
   outline: none;
   appearance: none;
   cursor: pointer;
-  width: 100%;
+  width: 250px;
 
   option {
-    background-color: #800000;
-    color: white;
+    background-color: #ADD8E6;
+    color: black;
     padding: 15px;
     min-height: 40px;
   }
