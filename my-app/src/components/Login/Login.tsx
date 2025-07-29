@@ -6,7 +6,7 @@ import "./Login.scss"
 import { useAuth } from "../../context/authContext";
 
 export const Login: React.FC = () => {
-    const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+    const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>(undefined);
     const [isDisableButton, setIsDisableButton] = useState<boolean>(true);
     const [password, setPassword] = useState<string>("")
 
@@ -22,7 +22,7 @@ export const Login: React.FC = () => {
             setPassword("")
             
         } else {
-            setSelectedPlayer(null);
+            setSelectedPlayer(undefined);
         }
     }
 
@@ -43,6 +43,7 @@ export const Login: React.FC = () => {
                 getOptionLabel={(player) => `${player.name} - #${player.number}`}
                 getOptionValue={(player) => player.name}
                 onChange={handleChange}
+                value={selectedPlayer}
                 placeholder="Select a Player"
             />
             {selectedPlayer && selectedPlayer.password !== undefined && 

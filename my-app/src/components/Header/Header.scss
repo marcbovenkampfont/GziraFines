@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     height: 70px;
-    background-color: rgba(100, 100, 100, 0.5);
+    background: linear-gradient(to right, #ADD8E6 0%, #800000 25%, #800000 50%, #800000 75%, #ADD8E6 100%);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -26,6 +26,8 @@
         display: flex;
         justify-content: center;
         gap: 15px;
+        background: linear-gradient(to right, #ADD8E6 0%, #800000 25%, #800000 50%, #800000 75%, #ADD8E6 100%);
+
 
         &_option {
             cursor: pointer;
