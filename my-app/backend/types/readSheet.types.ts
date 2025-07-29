@@ -5,6 +5,7 @@ export type Multa = {
     player: Player,
     rule: Rule,
     date: Date,
+    amount: number,
     minsLate: number,
     paid: boolean,
     rejected: boolean,

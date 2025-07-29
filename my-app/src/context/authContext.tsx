@@ -15,18 +15,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const stored = localStorage.getItem('player');
     return stored ? JSON.parse(stored) : null
   })
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    const stored = localStorage.getItem('isAdmin');
+    return stored ? JSON.parse(stored) : null;
+  })
 
   const login = (newPlayer: Player) => {
     setPlayer(newPlayer)
-    setIsAdmin(newPlayer.role === Role.admin ? true : false);
+    const isAdmin = newPlayer.role === Role.admin ? true : false
+    setIsAdmin(isAdmin);
     localStorage.setItem('player', JSON.stringify(newPlayer))
+    localStorage.setItem('isAdmin', JSON.stringify(isAdmin))
   }
 
   const logout = () => {
     setPlayer(null)
     setIsAdmin(false)
     localStorage.removeItem('player')
+    localStorage.removeItem('isAdmin')
   }
 
   return (

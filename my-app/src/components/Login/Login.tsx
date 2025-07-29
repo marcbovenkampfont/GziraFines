@@ -1,10 +1,8 @@
 import { useState } from "react";
 import type { Player } from "../../shared/types/players.types";
 import Select from "../Select/SelectCustom";
-import { useNavigate } from "react-router-dom";
 import { players } from "../../shared/constants/playersList";
 import "./Login.scss"
-import { APP_ROUTES } from "../../shared/constants/appRoutes";
 import { useAuth } from "../../context/authContext";
 
 export const Login: React.FC = () => {
@@ -13,12 +11,10 @@ export const Login: React.FC = () => {
     const [password, setPassword] = useState<string>("")
 
     const { login } = useAuth();
-    const navigate = useNavigate();
 
     const handleChange = (option: Player | undefined): void => {
         if (option !== undefined) {
             setSelectedPlayer(option);
-
             if (option.role === "user") {
                 setIsDisableButton(false);
             }
@@ -37,15 +33,17 @@ export const Login: React.FC = () => {
 
     const handleClickLogin = () =>  {
         login(selectedPlayer as Player)
-        navigate(APP_ROUTES.resume)
     }
 
     return (
         <div className="login-container">
             Who are you?
-            <Select
+            <Select<Player>
                 options={players}
-                onChangePlayer={handleChange}
+                getOptionLabel={(player) => `${player.name} - #${player.number}`}
+                getOptionValue={(player) => player.name}
+                onChange={handleChange}
+                placeholder="Select a Player"
             />
             {selectedPlayer && selectedPlayer.password !== undefined && 
                 <input
@@ -68,7 +66,6 @@ export const Login: React.FC = () => {
                 />
             }
             <button 
-                // onClick={() => navigate(APP_ROUTES.resume)}
                 onClick={handleClickLogin}
                 disabled={isDisableButton}
                 style={{marginTop: "40px"}}

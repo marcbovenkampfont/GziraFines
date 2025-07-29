@@ -6,7 +6,7 @@ export const minutFormat = (value?: number): string => {
     return value !== null && value !== 0 ? `${value}'` : "-"
 }
 
-export const dateFormat = (date: Date): string => {
+export const dateTableFormat = (date: Date): string => {
     return date.getDate() + '/' + date.toLocaleString('en-US', { month: 'short' })
 }
 
