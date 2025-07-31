@@ -13,6 +13,7 @@ const Header = () => {
 
     const resumeMatch = useMatch(APP_ROUTES.resume);
     const addMultaMatch = useMatch(APP_ROUTES.addMulta);
+    const updateMultaMatch = useMatch(APP_ROUTES.updateMulta);
 
     const getIniciales = () => {
         const words = player?.name.trim().split(/\s+/)
@@ -36,6 +37,7 @@ const Header = () => {
             <div className="header_menu">
                 <div className={`header_menu_option${resumeMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.resume)}>RESUME</div>
                 {isAdmin && <div className={`header_menu_option${addMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.addMulta)}>ADD FINE</div>}
+                {isAdmin && <div className={`header_menu_option${updateMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.updateMulta)}>UPDATE FINE</div>}
             </div>
         </>
     )

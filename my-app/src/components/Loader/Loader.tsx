@@ -6,7 +6,7 @@ const Loader = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100px',
+      // height: '100px',
     }}>
       <div className="spinner" />
     </div>

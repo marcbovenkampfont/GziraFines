@@ -5,9 +5,11 @@ type SelectProps<T> = {
   options: T[];
   getOptionLabel: (option: T) => string;
   getOptionValue: (option: T) => string;
-  onChange: (selected: T | undefined) => void;
-  value?: T;
+  onChange: (selected: T | T[] | undefined) => void;
+  value?: T | T[];
   placeholder?: string;
+  disabled?: boolean;
+  isMulti?: boolean;
 };
 
 function Select<T>({
@@ -17,14 +19,31 @@ function Select<T>({
   onChange,
   value,
   placeholder = "Select an option...",
+  disabled = false,
+  isMulti = false,
 }: SelectProps<T>) {
-
-  const selectedValue = value ? getOptionValue(value) : "";
+  const isArrayValue = Array.isArray(value);
+  const selectedValues = isMulti && isArrayValue
+    ? value.map(getOptionValue)
+    : !isMulti && value
+    ? getOptionValue(value as T)
+    : "";
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    const selected = options.find((opt) => getOptionValue(opt) === selectedValue);
-    onChange(selected);
+    if (isMulti) {
+      const selected = Array.from(e.target.selectedOptions).map(opt => opt.value);
+      const selectedOptions = options.filter(opt =>
+        selected.includes(getOptionValue(opt))
+      );
+      console.log("SELECTED OPTIOS", selectedOptions)
+      onChange(selectedOptions);
+    } else {
+      const selectedValue = e.target.value;
+      const selected = options.find(
+        (opt) => getOptionValue(opt) === selectedValue
+      );
+      onChange(selected);
+    }
   };
 
   return (
@@ -32,7 +51,9 @@ function Select<T>({
       id="selector"
       className="custom-select"
       onChange={handleChange}
-      value={selectedValue}
+      value={selectedValues}
+      disabled={disabled}
+      multiple={isMulti}
     >
       <option value="" disabled hidden>
         {placeholder}

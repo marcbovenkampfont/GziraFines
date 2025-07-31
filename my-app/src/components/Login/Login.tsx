@@ -1,9 +1,12 @@
 import { useState } from "react";
-import type { Player } from "../../shared/types/players.types";
+import { PersonRole, Role, type Player } from "../../shared/types/players.types";
 import Select from "../Select/SelectCustom";
 import { players } from "../../shared/constants/playersList";
 import "./Login.scss"
 import { useAuth } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../shared/constants/appRoutes";
+import ButtonCustom from "../ButtonCustom/ButtonCustom";
 
 export const Login: React.FC = () => {
     const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>(undefined);
@@ -12,17 +15,23 @@ export const Login: React.FC = () => {
 
     const { login } = useAuth();
 
-    const handleChange = (option: Player | undefined): void => {
-        if (option !== undefined) {
+    const navigate = useNavigate();
+
+    const handleChange = (option: Player | Player[] | undefined): void => {
+        if (option !== undefined && !Array.isArray(option)) {
             setSelectedPlayer(option);
-            if (option.role === "user") {
+            console.log("PLAYER", option)
+            if (option.role.includes(Role.user)) {
                 setIsDisableButton(false);
+            } else {
+                setIsDisableButton(true);
             }
 
             setPassword("")
             
         } else {
             setSelectedPlayer(undefined);
+            setIsDisableButton(true);
         }
     }
 
@@ -33,6 +42,7 @@ export const Login: React.FC = () => {
 
     const handleClickLogin = () =>  {
         login(selectedPlayer as Player)
+        navigate(APP_ROUTES.resume)
     }
 
     return (
@@ -40,13 +50,13 @@ export const Login: React.FC = () => {
             Who are you?
             <Select<Player>
                 options={players}
-                getOptionLabel={(player) => `${player.name} - #${player.number}`}
+                getOptionLabel={(player) => player.personRole === PersonRole.player ? `${player.name} - #${player.number}` : `${player.name}`}
                 getOptionValue={(player) => player.name}
                 onChange={handleChange}
                 value={selectedPlayer}
-                placeholder="Select a Player"
+                placeholder="Select yourself..."
             />
-            {selectedPlayer && selectedPlayer.password !== undefined && 
+            {selectedPlayer && selectedPlayer.role.includes(Role.admin) && selectedPlayer.password !== undefined && 
                 <input
                     id="password"
                     type="password"
@@ -56,23 +66,19 @@ export const Login: React.FC = () => {
                         outline: "none",
                         padding: "8px 0",
                         fontSize: "16px",
-                        width: "100%",
+                        width: "200px",
                         marginTop: "20px",
                         color: "white",
                         backgroundColor: "#800000"
                     }}
                     value={password}
                     onChange={e => handleOnChangePassword(e.target.value)}
-                    placeholder="Password"
+                    placeholder="PASSWORD"
                 />
             }
-            <button 
-                onClick={handleClickLogin}
-                disabled={isDisableButton}
-                style={{marginTop: "40px"}}
-            >
-                Login
-            </button>
+            <ButtonCustom border={true} onClick={handleClickLogin} disabled={isDisableButton} >
+                LOGIN
+            </ButtonCustom>
         </div>
     )
 }

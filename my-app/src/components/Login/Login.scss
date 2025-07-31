@@ -9,3 +9,9 @@
     align-items: center;
     justify-content: start;
 }
+
+input::placeholder {
+    color: rgb(200, 200, 200);
+    opacity: 1;
+    font-size: 13px;
+}

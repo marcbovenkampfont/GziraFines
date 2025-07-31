@@ -1,0 +1,36 @@
+.modal-multa {
+    height: 100%;
+    background-color: #800000;
+
+    &-header {
+        padding: 0 3%;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid grey;
+    }
+    
+    &-info {
+        padding: 0 3%;
+        text-align: left;
+
+        &-status {
+            display: flex;
+            row-gap: 10px;
+            column-gap: 40px;
+            flex-wrap: wrap;
+            // justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    &-buttons {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+}

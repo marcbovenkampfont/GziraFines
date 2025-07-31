@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = (newPlayer: Player) => {
     setPlayer(newPlayer)
-    const isAdmin = newPlayer.role === Role.admin ? true : false
+    const isAdmin = newPlayer.role.includes(Role.admin)
     setIsAdmin(isAdmin);
     localStorage.setItem('player', JSON.stringify(newPlayer))
     localStorage.setItem('isAdmin', JSON.stringify(isAdmin))
