@@ -128,9 +128,19 @@ const AddFine: React.FC = () => {
               {submitted && !form.date && <p className="text-red-500 text-sm">Campo obligatorio</p>}
             </div>
             
-            <ButtonCustom border={true} type="submit" disabled={!isValid || isCreating}>
+            {/* <ButtonCustom border={true} type="submit" disabled={!isValid || isCreating}>
               ADD FINE
-            </ButtonCustom>
+            </ButtonCustom> */}
+            <button
+              style={{
+                backgroundColor: !isValid || isCreating ? "#ccc" : "#ADD8E6",
+                color: !isValid || isCreating ? "#666" : "black",
+                cursor: !isValid || isCreating ? "not-allowed" : "pointer",
+              }}
+              type="submit"
+              disabled={!isValid || isCreating}>
+              ADD FINE
+            </button>
           </form>
           
           <AnimatePresence mode="wait">
