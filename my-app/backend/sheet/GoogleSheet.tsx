@@ -45,6 +45,9 @@ export const initGapi = async () => {
 }
 
 export const fetchResumeData = async () => {
+  const isLocalhost = window.location.hostname === "localhost";
+  const range = isLocalhost ? "Testing!A1:J" : "Resume!A1:J";
+
   try {
       await initGapi();
       const spreadsheet = await window.gapi.client.sheets.spreadsheets.get({
@@ -63,13 +66,12 @@ export const fetchResumeData = async () => {
 
       const multas = await window.gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: SPREADSHEET_ID,
-        range: "Resume!A1:J",
+        range: range,
       }).then((response: any) => {
           const lines = response.result.values;
           const multas: Multa[] = []
           for (let i = 1; i < lines.length; i++) {
             const line = lines[i]
-            console.log("line", line)
             const id = parseInt(line[0])
             const player = getPlayerFromName(line[1])
             const rule = getRuleByName(line[2])
@@ -80,9 +82,6 @@ export const fetchResumeData = async () => {
             const paidTo = line[7] !== "" ? getPlayerFromName(line[7]) : undefined;
             const paidOn = line[8] === "" ? undefined : parseDateFromString(line[8]);
             const rejected = line[9].toUpperCase() === "YES" ? true : false;
-
-            console.log("player", player)
-            console.log("rule", rule)
 
             if (player && rule) {
                 multas.push({

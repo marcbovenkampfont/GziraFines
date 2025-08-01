@@ -36,9 +36,14 @@ const AddFine: React.FC = () => {
 
   const [banner, setBanner] = useState<BannerType>({message: "", success: false})
 
+  const isMinutsLateShow = () => {
+    return form.rule?.multiplication !== undefined;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("submit", form.player)
+    console.log("submit", form.player, form.rule, form.date)
+    
     setSubmitted(true);
     if (form.player && form.rule && form.date) {
       setIsCreating(true);
@@ -64,11 +69,11 @@ const AddFine: React.FC = () => {
     }
   };
 
-  const isValid = form.player && form.date;
+  const isValid = form.rule && form.player && form.date && (isMinutsLateShow() ? form.minsLate : true);
 
   return (
-    <Page permissions={[Role.admin]}>
-      <div className="add-fine">
+    <Page roles={["ADMIN", "MODERATOR"]} permissions={["ADD_FINE"]}>
+      {/* <div className="add-fine"> */}
           <form onSubmit={handleSubmit} className="add-fine-form">
             <div>
               <Select<Rule>
@@ -80,7 +85,7 @@ const AddFine: React.FC = () => {
                 placeholder="Select the rule violated..."
                 disabled={isCreating}
                 />
-              {submitted && !form.rule && <p className="text-red-500 text-sm">Campo obligatorio</p>}
+              {submitted && !form.rule && <p style={{color: 'red', padding: 0, margin: 0}}>Campo obligatorio</p>}
             </div>
 
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -95,13 +100,12 @@ const AddFine: React.FC = () => {
                 isMulti
                 />
               {form.player !== undefined && (
-                <p>{form.player.map(p => p.name).join(" - ") + "."}</p>
+                <p style={{ marginBottom: 0}}>{form.player.map(p => p.name).join(" - ") + "."}</p>
               )}
-              
-              {submitted && !form.player && <p className="text-red-500 text-sm">Campo obligatorio</p>}
+              {submitted && !form.player && <a style={{color: 'red'}}>Campo obligatorio</a>}
             </div>
 
-            <div style={{width: '250px', display: 'flex', gap: '20px'}}>
+            {isMinutsLateShow() && <div style={{width: '250px', display: 'flex', gap: '20px'}}>
               <label>Minuts late: </label>
               <input
                 style={{width: '40px', textAlign: 'right'}}
@@ -111,7 +115,7 @@ const AddFine: React.FC = () => {
                 onChange={(e) => setForm({ ...form, minsLate: parseInt(e.target.value) })}
                 disabled={isCreating}
                 />
-            </div>
+            </div>}
 
             <div style={{width: '250px', display: 'flex', flexDirection: 'column', gap: '10px'}}>
               <label>Date of infraction</label>
@@ -128,10 +132,10 @@ const AddFine: React.FC = () => {
               {submitted && !form.date && <p className="text-red-500 text-sm">Campo obligatorio</p>}
             </div>
             
-            {/* <ButtonCustom border={true} type="submit" disabled={!isValid || isCreating}>
+            <ButtonCustom border={true} type="submit" disabled={!isValid || isCreating}>
               ADD FINE
-            </ButtonCustom> */}
-            <button
+            </ButtonCustom>
+            {/* <button
               style={{
                 backgroundColor: !isValid || isCreating ? "#ccc" : "#ADD8E6",
                 color: !isValid || isCreating ? "#666" : "black",
@@ -140,7 +144,7 @@ const AddFine: React.FC = () => {
               type="submit"
               disabled={!isValid || isCreating}>
               ADD FINE
-            </button>
+            </button> */}
           </form>
           
           <AnimatePresence mode="wait">
@@ -148,7 +152,7 @@ const AddFine: React.FC = () => {
               <Banner key="banner" message={banner.message} success={banner.success} />
             }
           </AnimatePresence>
-      </div>
+      {/* </div> */}
     </Page>
   );
 };

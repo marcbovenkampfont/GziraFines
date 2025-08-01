@@ -1,16 +1,24 @@
 .resume {
     text-align: left;
 
+    &-view {
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+    }
+
     &-multas {
-        // background-color: blue;
-        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
 
         &__total {
-            margin: 15px 0;
+            margin-bottom: 15px;
             font-size: 16px;
             display: flex;
-            align-items: center;
+            align-items: baseline;
+            justify-content: start;
             gap: 10px;
+            text-align: left;
 
             &-price {
                 font-size: 20px;

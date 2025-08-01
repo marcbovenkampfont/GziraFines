@@ -1,31 +1,43 @@
 import React from "react";
 import type { ReactNode } from "react";
 import { useAuth } from "../../context/authContext.js";
-import type { Player, Role } from "../../shared/types/players.types.js";
+import { getPermissionsFromRoles,  type Permission, type RoleV2 } from "../../shared/types/players.types.js";
 
 interface VisibleProps {
     children: ReactNode;
-    when: Role[];
+    whenRole?: RoleV2[];
+    whenPermission?: Permission[],
 }
 
-
-const Visible: React.FC<VisibleProps> = ({ when, children }) => {
+const Visible: React.FC<VisibleProps> = ({ whenRole = [], whenPermission = [], children }) => {
 
     const { player } = useAuth();
 
-    const checkWhen = (user: Player | null, when: Role[]) => {
-        if (when.length === 0) {
-            return true;
-        }
+    const hasRole = (): boolean => {
+        if (!player && (whenRole.length === 0 && whenPermission.length === 0)) return true;
+        if (!player || !Array.isArray(player.role)) return false;
+        return whenRole.length === 0 || (player ? player.role.some(role => whenRole.includes(role)) : true);
+    };
+    
+    const hasPermission = (): boolean => {
+        if (!player && (whenRole.length === 0 && whenPermission.length === 0)) return true;
+        if (!player || !Array.isArray(getPermissionsFromRoles(player))) return false;
+        return whenPermission.length === 0 || getPermissionsFromRoles(player).some(p => whenPermission.includes(p));
+    };
 
-        if (!user) return false
-        if (!Array.isArray(user.role)) {
-            return false;
-        }
-        return user.role.some(role => when.includes(role));
-    }
+    const isVisible = () => {
+        console.log("whenRole", whenRole)
+        console.log("whenPermission", whenPermission)
+        console.log("HAS ROLE", hasRole())
+        console.log("HAS PERMISSIONS", hasPermission())
 
-    return <>{Boolean(checkWhen(player, when)) ? children : <>NO AUTORIZADO</>}</>;
+        if (whenRole.length > 0 && whenPermission.length > 0) {
+            return hasRole() && hasPermission();
+        }
+        return hasRole() && hasPermission();
+    };
+
+    return <>{isVisible() ? children : <></>}</>;
 };
 
 export default Visible;

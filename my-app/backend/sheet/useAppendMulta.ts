@@ -9,6 +9,8 @@ import type { Multa } from "../types/readSheet.types.ts";
 
 export const useWriteMulta = () => {
   const { token, isSignedIn, login } = useGoogleAuth();
+  const isLocalhost = window.location.hostname === "localhost";
+  const range = isLocalhost ? "Testing!A1:J" : "Resume!A1:J";
 
   const appendMulta = async (rule: Rule, minsLate: number | undefined, date: Date, players: Player[]): Promise<boolean> => {
     let finalToken = token;
@@ -48,7 +50,7 @@ export const useWriteMulta = () => {
         window.gapi.client.setToken({ access_token: finalToken });
         const response = await window.gapi.client.sheets.spreadsheets.values.append({
           spreadsheetId: SPREADSHEET_ID,
-          range: "Resume!A:J",
+          range: range,
           valueInputOption: "USER_ENTERED",
           insertDataOption: "INSERT_ROWS",
           resource: {
@@ -69,7 +71,7 @@ export const useWriteMulta = () => {
     let finalToken = token;
     let finalIsSignedIn = isSignedIn;
 
-    const rangeToUpdate = `Resume!A${multa.id + 1}:J${multa.id + 1}`
+    const rangeToUpdate = `${isLocalhost ? 'Testing' : 'Resume'}!A${multa.id + 1}:J${multa.id + 1}`
     // return false
     try {
 

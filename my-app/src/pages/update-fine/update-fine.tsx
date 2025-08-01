@@ -6,14 +6,17 @@ import type { Multa } from '../../../backend/types/readSheet.types.ts'
 import Loader from '../../components/Loader/Loader.tsx'
 import MultaLine, { MultaType } from '../../components/MultaLine/MultaLine.tsx'
 import Page from '../../components/Page/Page.tsx'
-import { Role } from '../../shared/types/players.types.ts'
 import { useRightMenu } from '../../utils/menuContext.tsx'
 import MultaLineHeader from '../../components/MultaLine/MultaLineHeader.tsx'
+import FilterOption from '../../components/FilterOption/FilterOption.tsx'
+import { ResumeView } from '../resume/resume.tsx'
 
 export default function UpdateFine() {
   const { player } = useAuth()
   const [loading, setLoading] = useState(false)
   const [multas, setMultas] = useState<Multa[]>([])
+  const [multasFiltered, setMultasFiltered] = useState<Multa[]>([])
+  const [view, setView] = useState<ResumeView | null>(null)
 
   const { openRightMenu } = useRightMenu();
   
@@ -30,6 +33,8 @@ export default function UpdateFine() {
         const multasList = data;
         console.log("multas", multasList)
         setMultas(multasList)
+        setMultasFiltered(multasList)
+        setView(null)
       } catch (err) {
         alert('No se pudo cargar la hoja de cálculo')
       } finally {
@@ -45,27 +50,58 @@ export default function UpdateFine() {
     openRightMenu(multa, "multa")
   }
 
+  const handleChangeView = (newView: ResumeView) => {
+    if (view === newView) {
+      setView(null)
+      setMultasFiltered(multas)
+    } else {
+      setView(newView)
+      setMultasFiltered(
+        newView === ResumeView.PAID
+          ? multas.filter((m) => m.paid === true)
+          : newView === ResumeView.UNPAID
+            ? multas.filter((m) => m.paid === false)
+            : multas.filter((m) => m.rejected === true)
+      )
+    }
+  }
+
   return (
-    <Page permissions={[Role.admin]}>
-        <div className='update'>
-        {loading
-        ? <Loader/>
-        :<div className='update-multas'>
-            {multas.length > 0
-            ? <>
-                <MultaLineHeader type={MultaType.update} />
-                {multas.map((multa) => (
-                    <MultaLine type={MultaType.update} onClick={(multa) => handleOnClickMulta(multa)} key={multa.player.name + multa.rule.shortName + multa.date.toString()} multa={multa}/>
-                ))}
-            </>
-            : <div>Lucky you, don't have any fine to pay right now</div>
-            }
-            {/* <div className='resume-multas__pending'>
-            Comming soon ----&gt; Already paid fines
-            </div> */}
-        </div>
-        }
-        </div>
+    <Page permissions={["UPDATE_PAID_FINE", "UPDATE_REJECT_FINE"]}>
+      <div className='update-filters'>
+        <FilterOption
+          title='unpaid'
+          onClick={() => handleChangeView(ResumeView.UNPAID)}
+          selected={view === ResumeView.UNPAID}
+          color='#ADD8E6'
+        />
+        <FilterOption
+          title='paid'
+          onClick={() => handleChangeView(ResumeView.PAID)}
+          selected={view === ResumeView.PAID}
+          color='#FFC107'
+        />
+        {/* <FilterOption
+          title='rejected'
+          onClick={() => handleChangeView(ResumeView.REJECTED)}
+          selected={view === ResumeView.REJECTED}
+          color='green'
+        /> */}
+      </div>
+      {loading
+      ? <Loader/>
+      :<div className='update-multas'>
+          {multasFiltered.length > 0
+          ? <>
+              <MultaLineHeader type={MultaType.update} />
+              {multasFiltered.map((multa) => (
+                  <MultaLine type={MultaType.update} onClick={(multa) => handleOnClickMulta(multa)} key={multa.player.name + multa.rule.shortName + multa.date.toString()} multa={multa}/>
+              ))}
+          </>
+          : <div>No fines</div>
+          }
+      </div>
+      }
     </Page>
   )
 }

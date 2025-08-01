@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PersonRole, Role, type Player } from "../../shared/types/players.types";
+import { PersonRole,  type Player,} from "../../shared/types/players.types";
 import Select from "../Select/SelectCustom";
 import { players } from "../../shared/constants/playersList";
 import "./Login.scss"
@@ -7,6 +7,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../shared/constants/appRoutes";
 import ButtonCustom from "../ButtonCustom/ButtonCustom";
+import Visible from "../Visible/Visible";
 
 export const Login: React.FC = () => {
     const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>(undefined);
@@ -21,7 +22,7 @@ export const Login: React.FC = () => {
         if (option !== undefined && !Array.isArray(option)) {
             setSelectedPlayer(option);
             console.log("PLAYER", option)
-            if (option.role.includes(Role.user)) {
+            if (option.role.includes("USER")) {
                 setIsDisableButton(false);
             } else {
                 setIsDisableButton(true);
@@ -56,25 +57,16 @@ export const Login: React.FC = () => {
                 value={selectedPlayer}
                 placeholder="Select yourself..."
             />
-            {selectedPlayer && selectedPlayer.role.includes(Role.admin) && selectedPlayer.password !== undefined && 
-                <input
-                    id="password"
-                    type="password"
-                    style={{
-                        border: "none",
-                        borderBottom: "1px solid white",
-                        outline: "none",
-                        padding: "8px 0",
-                        fontSize: "16px",
-                        width: "200px",
-                        marginTop: "20px",
-                        color: "white",
-                        backgroundColor: "#800000"
-                    }}
-                    value={password}
-                    onChange={e => handleOnChangePassword(e.target.value)}
-                    placeholder="PASSWORD"
-                />
+            {selectedPlayer && selectedPlayer.role.some((r) => ["ADMIN", "MODERATOR"].includes(r)) &&
+                // <Visible whenRole={["ADMIN", "MODERATOR"]} >
+                    <input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={e => handleOnChangePassword(e.target.value)}
+                        placeholder="PASSWORD"
+                        />
+                // </Visible> 
             }
             <ButtonCustom border={true} onClick={handleClickLogin} disabled={isDisableButton} >
                 LOGIN

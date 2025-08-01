@@ -1,12 +1,10 @@
 .custom-button {
-  // padding: 0.6rem 1.2rem;
-  // font-size: 20;
   border: none;
   border-radius: 2px;
   transition: background 0.3s ease;
   cursor: pointer;
   height: 45px;
-  // line-height: 25px;
+  width: fit-content;
 
   &.full-width {
     width: 100%;

@@ -13,27 +13,21 @@ function Home() {
 
   const navigate = useNavigate();
 
-  const handleClickResume = () => {
-    navigate(APP_ROUTES.home)
-  }
-
   return (
-    <Page permissions={[]}>
-      <div>
+    <Page>
+      <div style={{textAlign: 'center'}}>
         <img src={gziraLogo} className='logo' alt="gzira logo" />
+        <h1>Gzira Fines</h1>
       </div>
-      <h1>Gzira Fines</h1>
       {player !== null ?
-      <div style={{display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', margin: 'auto'}}>
+      <div style={{display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center'}}>
         <h3>You are {player.name}</h3>
-        {/* <ButtonCustom border={true} onClick={handleClickResume}>
+        <ButtonCustom border={true} onClick={() => navigate(APP_ROUTES.resume)}>
           GO RESUME
         </ButtonCustom>
-        <ButtonCustom border={true} onClick={() => logout}>
+        <ButtonCustom border={true} onClick={() => logout()}>
           LOGOUT
-        </ButtonCustom> */}
-        <button style={{width: '150px', margin: 'auto'}} onClick={() => navigate(APP_ROUTES.resume)}>Go resume</button>
-        <button style={{width: '150px', margin: 'auto'}} onClick={() => logout()}>Logout</button>
+        </ButtonCustom>
       </div>
       : <Login/>
       }

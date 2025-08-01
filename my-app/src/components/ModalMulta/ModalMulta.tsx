@@ -2,7 +2,7 @@ import './ModalMulta.scss'
 import { useRightMenu } from '../../utils/menuContext.tsx'
 import type { Multa } from '../../../backend/types/readSheet.types.ts'
 import ButtonCustom from '../ButtonCustom/ButtonCustom.tsx'
-import { dateFullFormat, moneyFormat } from '../../utils/formats.ts'
+import { dateFullFormat, getStatusFromMulta, moneyFormat } from '../../utils/formats.ts'
 import { useWriteMulta } from '../../../backend/sheet/useAppendMulta.ts'
 import { useAuth } from '../../context/authContext.tsx'
 import { MultaStatus } from '../../shared/types/multa.types.ts'
@@ -10,6 +10,8 @@ import { MultaStatusBadge } from '../MultaStatus/MultaStatus.tsx'
 import { useState } from 'react'
 import Banner, { type BannerType } from "../../components/Banner/Banner";
 import { AnimatePresence } from "motion/react"
+import Visible from '../Visible/Visible.tsx'
+import { getPermissionsFromRoles } from '../../shared/types/players.types.ts'
 
 export const ModalMultaType = {
   MULTA_RESUME: "resume",
@@ -36,16 +38,8 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
     return <p>Nada</p>
   }
 
-  const getStatusMulta = (multa: Multa): MultaStatus => {
-    return multa.rejected
-      ? MultaStatus.REJECTED
-      : multa.paid
-        ? MultaStatus.PAID
-        : MultaStatus.NOT_PAID
-  }
-
   const getMultaContainer = (): React.ReactNode => {
-    const multaStatus = getStatusMulta(multa);
+    const multaStatus = getStatusFromMulta(multa);
     if (multaStatus === MultaStatus.REJECTED) {
       return <MultaStatusBadge status={multaStatus} />
     }
@@ -137,14 +131,18 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
 
         {type === ModalMultaType.MULTA_UPDATE &&
           <div className='modal-multa-buttons'>
-              {getStatusMulta(multa) === MultaStatus.NOT_PAID && 
+            <Visible whenPermission={["UPDATE_PAID_FINE"]}>
+              {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
                 <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("paid")}>
-                  PAY
+                  PAID
                 </ButtonCustom>}
-              {getStatusMulta(multa) === MultaStatus.NOT_PAID && 
+            </Visible>
+            <Visible whenPermission={["UPDATE_REJECT_FINE"]}>
+              {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
                 <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("rejected")}>
-                  REJECT
+                  REJECTED
                 </ButtonCustom>}
+            </Visible>
           </div>
         }
 

@@ -42,13 +42,32 @@
         padding: 10px 4px;
         width: 50px;
         text-align: center;
-        // border-right: 1px solid grey;
+        overflow: hidden;
 
         &::after {
             content: "";
             position: absolute;
             height: 30px;
-            width: 2px;
+            width: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            background-color: gray;
+        }
+    }
+
+    &__status {
+        flex: 2;
+        position: relative;
+        padding: 10px 4px;
+        width: 100px;
+        text-align: center;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 1px;
             top: 50%;
             transform: translateY(-50%);
             right: 0;
