@@ -3,41 +3,121 @@
     max-width: 400px;
     // background-color: blue;
     display: flex;
-    border: 1px solid black;
+    // border: 1px solid black;
     
     &.headerTable{
         background-color: grey;
+        padding: 7px 0;
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 500;
     }
 
     &__name {
+        flex: 2.5;
+        position: relative;
         width: 175px;
-        padding: 4px;
+        padding: 10px 4px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        text-align: left;
+        // border-right: 1px solid grey;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            background-color: gray;
+        }
     }
 
     &__cost {
-        padding: 4px;
+        flex: 1;
+        position: relative;
+        padding: 10px 4px;
         width: 50px;
         text-align: center;
+        overflow: hidden;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            background-color: gray;
+        }
+    }
+
+    &__status {
+        flex: 2;
+        position: relative;
+        padding: 10px 4px;
+        width: 100px;
+        text-align: center;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            background-color: gray;
+        }
     }
     
     &__date {
-        padding: 4px;
+        flex: 1;
+        position: relative;
+        padding: 10px 4px;
         width: 50px;
         text-align: center;
+        // border-right: 1px solid grey;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            background-color: gray;
+        }
     }
     
     &__mins-late {
-        padding: 4px;
+        flex: 1;
+        position: relative;
+        padding: 10px 4px;
         width: 50px;
         text-align: center;
-        
+        // border-right: 1px solid grey;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            background-color: gray;
+        }
     }
     
     &__total {
-        padding: 4px;
+        flex: 1;
+        padding: 10px 4px;
         width: 50px;
         text-align: right;
 

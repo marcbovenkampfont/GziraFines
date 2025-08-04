@@ -4,13 +4,12 @@
     left: 0;
     right: 0;
     height: 70px;
-    background-color: rgba(100, 100, 100, 0.5);
+    background: linear-gradient(to right, #ADD8E6 0%, #800000 25%, #800000 50%, #800000 75%, #ADD8E6 100%);
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 3;
-    border-bottom: 1px solid black;
 
     &_logo {
         width: 50px;
@@ -18,7 +17,7 @@
     }
 
     &_menu {
-        position: absolute;
+        position: fixed;
         top: 70px;
         width: 100%;
         left: 0;
@@ -26,12 +25,17 @@
         display: flex;
         justify-content: center;
         gap: 15px;
+        background: linear-gradient(to right, #ADD8E6 0%, #800000 25%, #800000 50%, #800000 75%, #ADD8E6 100%);
+        z-index: 4;
+
 
         &_option {
             cursor: pointer;
-            width: 80px;
+            width: 100px;
             padding: 5px 0;
             font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
         }
 
         .located {

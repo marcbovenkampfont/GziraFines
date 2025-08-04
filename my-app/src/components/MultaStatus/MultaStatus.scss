@@ -1,0 +1,22 @@
+.badge {
+  padding: 5px;
+  border-radius: 3px;
+  font-weight: 500;
+  display: inline-block;
+//   border: 1px solid gray;
+
+  &.paid {
+    background-color: #dcfce7; // Tailwind's green-100
+    color: #15803d; // Tailwind's green-700
+  }
+
+  &.not-paid {
+    background-color: #fef9c3; // Tailwind's yellow-100
+    color: #a16207; // Tailwind's yellow-700
+  }
+
+  &.rejected {
+    background-color: #fee2e2; // Tailwind's red-100
+    color: #b91c1c; // Tailwind's red-700
+  }
+}

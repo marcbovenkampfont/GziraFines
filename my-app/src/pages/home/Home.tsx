@@ -4,6 +4,8 @@ import { Login } from '../../components/Login/Login'
 import { useAuth } from '../../context/authContext'
 import { APP_ROUTES } from '../../shared/constants/appRoutes';
 import { useNavigate } from 'react-router-dom';
+import Page from '../../components/Page/Page';
+import ButtonCustom from '../../components/ButtonCustom/ButtonCustom';
 
 function Home() {
 
@@ -12,20 +14,24 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <div>
+    <Page>
+      <div style={{textAlign: 'center'}}>
         <img src={gziraLogo} className='logo' alt="gzira logo" />
+        <h1>Gzira Fines</h1>
       </div>
-      <h1>Gzira Fines</h1>
       {player !== null ?
-      <div style={{display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', margin: 'auto'}}>
+      <div style={{display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center'}}>
         <h3>You are {player.name}</h3>
-        <button style={{width: '150px', margin: 'auto'}} onClick={() => navigate(APP_ROUTES.resume)}>Go resume</button>
-        <button style={{width: '150px', margin: 'auto'}} onClick={() => logout()}>Logout</button>
+        <ButtonCustom border={true} onClick={() => navigate(APP_ROUTES.resume)}>
+          GO RESUME
+        </ButtonCustom>
+        <ButtonCustom border={true} onClick={() => logout()}>
+          LOGOUT
+        </ButtonCustom>
       </div>
       : <Login/>
       }
-    </>
+    </Page>
   )
 }
 

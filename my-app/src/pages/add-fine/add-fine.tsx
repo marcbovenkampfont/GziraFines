@@ -2,24 +2,25 @@ import React, { useState } from "react";
 import Select from "../../components/Select/SelectCustom"
 import { format } from "date-fns";
 import { players } from "../../shared/constants/playersList";
-import type { Player } from "../../shared/types/players.types";
+import { type Player } from "../../shared/types/players.types";
 import './add-fine.scss'
 import type { Rule } from "../../shared/types/rules.types";
 import { rulesList } from "../../shared/constants/rulesList";
-import { useAppendMulta } from "../../../backend/sheet/useAppendMulta";
-import type { Multa } from "../../../backend/types/readSheet.types";
-import { getMoneyFromMulta } from "../../utils/multaCalculation";
+import { useWriteMulta } from "../../../backend/sheet/useAppendMulta";
 import Banner, { type BannerType } from "../../components/Banner/Banner";
 import { AnimatePresence } from "motion/react"
+import Page from "../../components/Page/Page";
+import { getTitleName } from "../../utils/formats";
+import ButtonCustom from "../../components/ButtonCustom/ButtonCustom";
 
 interface FormData {
-  player: Player | undefined;
+  player: Player[] | undefined;
   rule: Rule | undefined;
   minsLate?: number;
   date: Date | null;
 }
 
-const AddInfractionForm: React.FC = () => {
+const AddFine: React.FC = () => {
   const [form, setForm] = useState<FormData>({
     player: undefined,
     rule: undefined,
@@ -27,28 +28,28 @@ const AddInfractionForm: React.FC = () => {
     date: null,
   });
 
-  const { appendMulta } = useAppendMulta();
+  const [isCreating, setIsCreating] = useState(false);
+
+  const { appendMulta } = useWriteMulta();
 
   const [submitted, setSubmitted] = useState(false);
 
   const [banner, setBanner] = useState<BannerType>({message: "", success: false})
 
+  const isMinutsLateShow = () => {
+    return form.rule?.multiplication !== undefined;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     setSubmitted(true);
     if (form.player && form.rule && form.date) {
-      const multa: Multa = {
-        player: form.player,
-        rule: form.rule,
-        date: form.date,
-        minsLate: form.minsLate ?? 0,
-        amount: getMoneyFromMulta(form.rule, form.minsLate), // calcular el amount de la multa aquí
-        paid: false,
-        rejected: false
-      }
-      const multaAdded = await appendMulta(multa);
+      setIsCreating(true);
+      const multaAdded = await appendMulta(form.rule, form.minsLate, form.date, form.player);
+      setIsCreating(false);
       if(multaAdded) {
-        setBanner({message: "Multa añadida correctamente", success: true});
+        setBanner({message: "Fine added correctly", success: true});
 
         setForm({
           player: undefined,
@@ -61,78 +62,86 @@ const AddInfractionForm: React.FC = () => {
 
         setTimeout(() => setBanner({message: "", success: false}), 3000);
       } else {
-        setBanner({message: "Error al añadir multa", success: false});
+        setBanner({message: "Error trying to add a fine", success: false});
         setTimeout(() => setBanner({message: "", success: false}), 3000);
       }
     }
   };
 
-  const isValid = form.player && form.date;
+  const isValid = form.rule && form.player && form.date && (isMinutsLateShow() ? form.minsLate : true);
 
   return (
-    <div className="add-fine">
-        <form onSubmit={handleSubmit} className="add-fine-form">
-          <div>
-            <Select<Player>
-                options={players}
-                getOptionLabel={(player) => `${player.name} - #${player.number}`}
-                getOptionValue={(player) => player.name}
-                onChange={(player) => setForm({ ...form, player: player })}
-                value={form.player}
-                placeholder="Select a Player..."
+    <Page roles={["ADMIN", "MODERATOR"]} permissions={["ADD_FINE"]}>
+      <form onSubmit={handleSubmit} className="add-fine-form">
+        <div>
+          <Select<Rule>
+            options={rulesList}
+            getOptionLabel={(rule) => rule.shortName}
+            getOptionValue={(rule) => rule.name}
+            onChange={(rule) => setForm({ ...form, rule: rule as Rule})}
+            value={form.rule}
+            placeholder="Select the rule violated..."
+            disabled={isCreating}
             />
-            {submitted && !form.player && <p className="text-red-500 text-sm">Campo obligatorio</p>}
-          </div>
+          {submitted && !form.rule && <p style={{color: 'red', padding: 0, margin: 0}}>Campo obligatorio</p>}
+        </div>
 
-          <div>
-            <Select<Rule>
-                options={rulesList}
-                getOptionLabel={(rule) => rule.shortName}
-                getOptionValue={(rule) => rule.name}
-                onChange={(rule) => setForm({ ...form, rule: rule})}
-                value={form.rule}
-                placeholder="Select the rule violated..."
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <Select<Player>
+            options={players}
+            getOptionLabel={(player) => getTitleName(player, true)}
+            getOptionValue={(player) => player.name}
+            onChange={(player) => setForm({ ...form, player: player as Player[] })}
+            value={form.player}
+            placeholder="Select a Player..."
+            disabled={isCreating}
+            isMulti
             />
-            {submitted && !form.rule && <p className="text-red-500 text-sm">Campo obligatorio</p>}
-          </div>
+          {form.player !== undefined && (
+            <p style={{ marginBottom: 0}}>{form.player.map(p => p.name).join(" - ") + "."}</p>
+          )}
+          {submitted && !form.player && <a style={{color: 'red'}}>Campo obligatorio</a>}
+        </div>
 
-          <div style={{width: '250px', display: 'flex', gap: '20px'}}>
-            <label>Minuts late: </label>
-            <input
-              style={{width: '40px', textAlign: 'right'}}
-              type="number"
-              placeholder="Minutos (opcional)"
-              value={form.minsLate || 0}
-              onChange={(e) => setForm({ ...form, minsLate: parseInt(e.target.value) })}
+        {isMinutsLateShow() && <div style={{width: '250px', display: 'flex', gap: '20px'}}>
+          <label>Minuts late: </label>
+          <input
+            style={{width: '40px', textAlign: 'right'}}
+            type="number"
+            placeholder="Minutos (opcional)"
+            value={form.minsLate || 0}
+            onChange={(e) => setForm({ ...form, minsLate: parseInt(e.target.value) })}
+            disabled={isCreating}
             />
-          </div>
+        </div>}
 
-          <div style={{width: '250px', display: 'flex', flexDirection: 'column', gap: '10px'}}>
-            <label>Date of infraction</label>
-            <input
-                type="date"
-                style={{width: '100%', height: '30px', textAlign: 'center'}}
-                value={form.date ? format(form.date, "yyyy-MM-dd") : ""}
-                onChange={(e) => {
-                  const dateValue = e.target.value;
-                  setForm({ ...form, date: dateValue ? new Date(dateValue) : null });
-                }}
-            />
-            {submitted && !form.date && <p className="text-red-500 text-sm">Campo obligatorio</p>}
-          </div>
-
-          <button type="submit" disabled={!isValid} className="w-full">
-            Añadir Infracción
-          </button>
-        </form>
+        <div style={{width: '250px', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+          <label>Date of infraction</label>
+          <input
+              type="date"
+              style={{width: '100%', height: '30px', textAlign: 'center'}}
+              value={form.date ? format(form.date, "yyyy-MM-dd") : ""}
+              onChange={(e) => {
+                const dateValue = e.target.value;
+                setForm({ ...form, date: dateValue ? new Date(dateValue) : null });
+              }}
+              disabled={isCreating}
+              />
+          {submitted && !form.date && <p className="text-red-500 text-sm">Campo obligatorio</p>}
+        </div>
         
-        <AnimatePresence mode="wait">
-          {banner.message && 
-            <Banner key="banner" message={banner.message} success={banner.success} />
-          }
-        </AnimatePresence>
-    </div>
+        <ButtonCustom border={true} type="submit" disabled={!isValid || isCreating}>
+          ADD FINE
+        </ButtonCustom>
+      </form>
+      
+      <AnimatePresence mode="wait">
+        {banner.message && 
+          <Banner key="banner" message={banner.message} success={banner.success} />
+        }
+      </AnimatePresence>
+    </Page>
   );
 };
 
-export default AddInfractionForm;
+export default AddFine;

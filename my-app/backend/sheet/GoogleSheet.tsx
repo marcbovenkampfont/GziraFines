@@ -45,6 +45,9 @@ export const initGapi = async () => {
 }
 
 export const fetchResumeData = async () => {
+  const isLocalhost = window.location.hostname === "localhost";
+  const range = isLocalhost ? "Testing!A1:J" : "Resume!A1:J";
+
   try {
       await initGapi();
       const spreadsheet = await window.gapi.client.sheets.spreadsheets.get({
@@ -63,32 +66,39 @@ export const fetchResumeData = async () => {
 
       const multas = await window.gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: SPREADSHEET_ID,
-        range: "Resume!A1:G",
+        range: range,
       }).then((response: any) => {
           const lines = response.result.values;
           const multas: Multa[] = []
           for (let i = 1; i < lines.length; i++) {
-              const line = lines[i]
-              const player = getPlayerFromName(line[0])
-              const rule = getRuleByName(line[1])
-              const date = parseDateFromString(line[2])
-              const minsLate: number = line[3] !== "" ? parseInt(line[3]) : 0;
-              const amount: number = line[4] !== "" ? parseInt(line[4]) : 0;
-              const paid = line[5].toUpperCase() === "YES" ? true : false;
-              const rejected = line[6].toUpperCase() === "YES" ? true : false;
+            const line = lines[i]
+            const id = parseInt(line[0])
+            const player = getPlayerFromName(line[1])
+            const rule = getRuleByName(line[2])
+            const date = parseDateFromString(line[3])
+            const minsLate: number = line[4] !== "" ? parseInt(line[4]) : 0;
+            const amount: number = line[5] !== "" ? parseInt(line[5]) : 0;
+            const paid = line[6] !== "" && line[6].toUpperCase() === "YES" ? true : false;
+            const paidTo = line[7] !== "" ? getPlayerFromName(line[7]) : undefined;
+            const paidOn = line[8] === "" ? undefined : parseDateFromString(line[8]);
+            const rejected = line[9].toUpperCase() === "YES" ? true : false;
 
-              if (player && rule) {
-                  multas.push({
-                    player: player,
-                    rule: rule,
-                    date: date,
-                    minsLate: minsLate,
-                    amount: amount,
-                    paid: paid,
-                    rejected: rejected,
-                  })
-              }
+            if (player && rule) {
+                multas.push({
+                  id: id,
+                  player: player,
+                  rule: rule,
+                  date: date,
+                  minsLate: minsLate,
+                  amount: amount,
+                  paid: paid,
+                  paidTo: paidTo,
+                  paidOn: paidOn,
+                  rejected: rejected,
+                })
+            }
           }
+          console.log("multas en llamada", multas)
           return multas;
       });
       return multas.filter((m: Multa) => m.rejected === false);

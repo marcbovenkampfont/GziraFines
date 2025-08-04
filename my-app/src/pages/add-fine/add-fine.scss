@@ -1,5 +1,4 @@
 .add-fine {
-    padding: 30px 20px;
     text-align: left;
 
     &-form {
@@ -8,4 +7,9 @@
         gap: 30px;
         align-items: center;
     }
+}
+input::placeholder {
+    color: rgb(200, 200, 200);
+    opacity: 1;
+    font-size: 13px;
 }

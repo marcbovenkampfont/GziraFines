@@ -1,0 +1,50 @@
+.custom-button {
+  border: none;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  height: 45px;
+  width: fit-content;
+
+  &.full-width {
+    width: 100%;
+  }
+
+  &.bordered {
+    border: 3px solid grey;
+  }
+
+  &--primary {
+    // background-color: #007bff;
+    background-color: transparent;
+    color: white;
+
+    // &:hover:not(.disabled) {
+    //   background-color: #0069d9;
+    // }
+  }
+
+  &--secondary {
+    background-color: #6c757d;
+    color: white;
+
+    &:hover:not(.disabled) {
+      background-color: #5a6268;
+    }
+  }
+
+  &--danger {
+    background-color: #dc3545;
+    color: white;
+
+    &:hover:not(.disabled) {
+      background-color: #c82333;
+    }
+  }
+
+  &.disabled {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed;
+  }
+}
