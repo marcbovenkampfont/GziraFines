@@ -26,11 +26,6 @@ const Visible: React.FC<VisibleProps> = ({ whenRole = [], whenPermission = [], c
     };
 
     const isVisible = () => {
-        console.log("whenRole", whenRole)
-        console.log("whenPermission", whenPermission)
-        console.log("HAS ROLE", hasRole())
-        console.log("HAS PERMISSIONS", hasPermission())
-
         if (whenRole.length > 0 && whenPermission.length > 0) {
             return hasRole() && hasPermission();
         }

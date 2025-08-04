@@ -41,7 +41,7 @@ export default function Resume() {
         const multasList = data.filter((multa: Multa) => comparePlayers(multa.player, player))
         setMultas(multasList)
       } catch (err) {
-        alert('No se pudo cargar la hoja de cálculo')
+        alert(`No se pudo cargar la hoja de cálculo ${err}`)
       } finally {
         setLoading(false)
       }

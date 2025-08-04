@@ -31,12 +31,12 @@ export default function UpdateFine() {
       try {
         const data = await fetchResumeData();
         const multasList = data;
-        console.log("multas", multasList)
+
         setMultas(multasList)
         setMultasFiltered(multasList)
         setView(null)
       } catch (err) {
-        alert('No se pudo cargar la hoja de cálculo')
+        alert(`Error trying to get the fines ${err}`)
       } finally {
         setLoading(false)
       }
@@ -46,7 +46,6 @@ export default function UpdateFine() {
   }, [])
 
   const handleOnClickMulta = (multa: Multa) => {
-    console.log("ABRIR MULTA", multa)
     openRightMenu(multa, "multa")
   }
 

@@ -11,7 +11,6 @@ import { useState } from 'react'
 import Banner, { type BannerType } from "../../components/Banner/Banner";
 import { AnimatePresence } from "motion/react"
 import Visible from '../Visible/Visible.tsx'
-import { getPermissionsFromRoles } from '../../shared/types/players.types.ts'
 
 export const ModalMultaType = {
   MULTA_RESUME: "resume",
@@ -78,7 +77,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
       const multaUpdated = await updateMulta(multaToUpdate)
       setBanner({message: multaUpdated ? "FINE PAID" : "ERROR UPDATING THE FINE", success: multaUpdated})
       setTimeout(() => setBanner({message: "", success: false}), 3000);
-      console.log("Multa updated", multaUpdated)
+
       setIsUpdating(false)
       if (multaUpdated) {
         multa.paid = true;
@@ -112,7 +111,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
         </div>
         {multa &&
             <div className='modal-multa-info'>
-              <h3>TOTAL TO PAY: {multa.amount}</h3>
+              <h3>TOTAL TO PAY: {moneyFormat(multa.amount)}</h3>
               <h3>Rule violated</h3>
               <p>{multa.rule.name}</p>
               <p>Base cost {moneyFormat(multa.rule.cost)} {multa.rule.multiplication && `multiplicated every ${multa.rule.multiplication}'`}</p>
@@ -140,7 +139,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
             <Visible whenPermission={["UPDATE_REJECT_FINE"]}>
               {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
                 <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("rejected")}>
-                  REJECTED
+                  DELETED
                 </ButtonCustom>}
             </Visible>
           </div>

@@ -7,7 +7,6 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../shared/constants/appRoutes";
 import ButtonCustom from "../ButtonCustom/ButtonCustom";
-import Visible from "../Visible/Visible";
 
 export const Login: React.FC = () => {
     const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>(undefined);
@@ -21,7 +20,7 @@ export const Login: React.FC = () => {
     const handleChange = (option: Player | Player[] | undefined): void => {
         if (option !== undefined && !Array.isArray(option)) {
             setSelectedPlayer(option);
-            console.log("PLAYER", option)
+
             if (option.role.includes("USER")) {
                 setIsDisableButton(false);
             } else {
@@ -58,15 +57,13 @@ export const Login: React.FC = () => {
                 placeholder="Select yourself..."
             />
             {selectedPlayer && selectedPlayer.role.some((r) => ["ADMIN", "MODERATOR"].includes(r)) &&
-                // <Visible whenRole={["ADMIN", "MODERATOR"]} >
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={e => handleOnChangePassword(e.target.value)}
-                        placeholder="PASSWORD"
-                        />
-                // </Visible> 
+                <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={e => handleOnChangePassword(e.target.value)}
+                    placeholder="PASSWORD"
+                    />
             }
             <ButtonCustom border={true} onClick={handleClickLogin} disabled={isDisableButton} >
                 LOGIN

@@ -35,7 +35,6 @@ function Select<T>({
       const selectedOptions = options.filter(opt =>
         selected.includes(getOptionValue(opt))
       );
-      console.log("SELECTED OPTIOS", selectedOptions)
       onChange(selectedOptions);
     } else {
       const selectedValue = e.target.value;

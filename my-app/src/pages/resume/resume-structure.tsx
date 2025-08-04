@@ -17,7 +17,6 @@ const ResumeStructure: React.FC<ResumeStructureProps> = ({ view, multas }) => {
     const [total, setTotal] = useState(0);
 
     const { openRightMenu } = useRightMenu();
-    console.log("MULTAS ", multas)
 
     useEffect(() => {
         let total = 0;
