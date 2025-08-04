@@ -20,8 +20,8 @@ function Home() {
         <h1>Gzira Fines</h1>
       </div>
       {player !== null ?
-      <div style={{display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center'}}>
-        <h3>You are {player.name}</h3>
+      <div style={{display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center', textAlign: 'center'}}>
+        <h3>Welcome, {player.name}</h3>
         <ButtonCustom border={true} onClick={() => navigate(APP_ROUTES.resume)}>
           GO RESUME
         </ButtonCustom>
