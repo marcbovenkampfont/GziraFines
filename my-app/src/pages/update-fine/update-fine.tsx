@@ -57,9 +57,9 @@ export default function UpdateFine() {
       setView(newView)
       setMultasFiltered(
         newView === ResumeView.PAID
-          ? multas.filter((m) => m.paid === true)
+          ? multas.filter((m) => m.paid === true && m.rejected === false)
           : newView === ResumeView.UNPAID
-            ? multas.filter((m) => m.paid === false)
+            ? multas.filter((m) => m.paid === false && m.rejected === false)
             : multas.filter((m) => m.rejected === true)
       )
     }
@@ -80,12 +80,12 @@ export default function UpdateFine() {
           selected={view === ResumeView.PAID}
           color='#FFC107'
         />
-        {/* <FilterOption
-          title='rejected'
+        <FilterOption
+          title='deleted'
           onClick={() => handleChangeView(ResumeView.REJECTED)}
           selected={view === ResumeView.REJECTED}
           color='green'
-        /> */}
+        />
       </div>
       {loading
       ? <Loader/>

@@ -12,7 +12,7 @@ export const multaToSheet = (multa: Multa): string[] => {
       multa.amount.toString(),
       multa.paid ? "YES" : "NO",
       multa.paidTo?.name ?? "",
-      multa.paidOn ? format(multa.date, "dd-MM-yyy") : "",
+      multa.paidOn ? format(multa.paidOn, "dd-MM-yyy") : "",
       multa.rejected ? "YES" : "NO",
     ];
 

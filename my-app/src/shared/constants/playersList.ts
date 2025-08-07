@@ -24,7 +24,10 @@ export const players: Player[] = [
     { name: "Karl Sargent", shortName: "Karl", number: 1, role: ["USER"], personRole: "player" },
     { name: "Alesk Lubik", shortName: "Alesk", number: 70, role: ["USER"], personRole: "player" },
     { name: "Kristen Galea", shortName: "Kisten", number: 20, role: ["USER"], personRole: "player" },
+    { name: "Edoardo Colombo", shortName: "Edoardo", number: 0, role: ["USER"], personRole: "player" },
+    { name: "Wallace Bonilha Felix", shortName: "Wallace", number: 96, role: ["USER"], personRole: "player" },
     { name: "Mark Abela", shortName: "Mark", number: 0, password: "MAPC", role: ["MODERATOR"], personRole: "coach"},
     { name: "Clive Mizzi", shortName: "Clive", number: 0, password: "CMFC", role: ["MODERATOR"], personRole: "coach"},
-    { name: "Matthew Mizzi", shortName: "Matthew", number: 0, password: "MMSC", role: ["MODERATOR"], personRole: "coach"}
+    { name: "Matthew Mizzi", shortName: "Matthew", number: 0, password: "MMSC", role: ["MODERATOR"], personRole: "coach"},
+    { name: "Malcolm Vella", shortName: "Malcolm", number: 0, password: "MVGC", role: ["MODERATOR"], personRole: "coach"}
 ]

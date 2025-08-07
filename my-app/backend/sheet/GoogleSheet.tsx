@@ -101,7 +101,7 @@ export const fetchResumeData = async () => {
           console.log("multas en llamada", multas)
           return multas;
       });
-      return multas.filter((m: Multa) => m.rejected === false);
+      return multas;
   } catch (err) {
       console.error("Error al acceder a la hoja", err);
   } 

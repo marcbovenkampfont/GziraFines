@@ -12,7 +12,7 @@ export const MultaStatusBadge: React.FC<Props> = ({ status }) => {
 
     useEffect(() => {
         if (status === MultaStatus.REJECTED) {
-            setLabel("REJECTED")
+            setLabel("DELETED")
             setClassName("rejected")
         } else if (status === MultaStatus.PAID) {
             setLabel("PAID")

@@ -38,7 +38,7 @@ export default function Resume() {
       setLoading(true)
       try {
         const data = await fetchResumeData();
-        const multasList = data.filter((multa: Multa) => comparePlayers(multa.player, player))
+        const multasList = data.filter((multa: Multa) => comparePlayers(multa.player, player) && multa.rejected === false)
         setMultas(multasList)
       } catch (err) {
         alert(`No se pudo cargar la hoja de cálculo ${err}`)
