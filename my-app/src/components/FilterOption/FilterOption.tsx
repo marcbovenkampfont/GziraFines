@@ -1,4 +1,5 @@
 import './FilterOption.scss'
+import { FormattedMessage } from 'react-intl'
 
 export const Option = {
   unpaid: 'unpaid',
@@ -27,7 +28,7 @@ const FilterOption: React.FC<FilterOptionProps> = ({ title, onClick, color, sele
             }}
             onClick={onClick}
         >
-            {title}
+            <FormattedMessage id={title} />
         </div>
     );
 }

@@ -5,6 +5,7 @@ import { APP_ROUTES } from "../../shared/constants/appRoutes";
 import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import Visible from "../Visible/Visible";
+import { FormattedMessage } from "react-intl";
 
 const Header = () => {
 
@@ -36,13 +37,21 @@ const Header = () => {
             </div>
 
             <div className="header_menu">
-                <div className={`header_menu_option${resumeMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.resume)}>RESUME</div>
-                <Visible whenPermission={["ADD_FINE"]}>
-                    <div className={`header_menu_option${addMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.addMulta)}>ADD FINE</div>
-                </Visible>
-                <Visible whenPermission={["UPDATE_PAID_FINE", "UPDATE_REJECT_FINE"]}>
-                    <div className={`header_menu_option${updateMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.updateMulta)}>UPDATE FINE</div>
-                </Visible>
+                <div className="header_menu_list">
+                    <div className={`header_menu_list_option${resumeMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.resume)}>
+                        <FormattedMessage id="shared.menu.resume" />
+                    </div>
+                    <Visible whenPermission={["ADD_FINE"]}>
+                        <div className={`header_menu_list_option${addMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.addMulta)}>
+                            <FormattedMessage id="shared.menu.add-fine" />
+                        </div>
+                    </Visible>
+                    <Visible whenPermission={["UPDATE_PAID_FINE", "UPDATE_REJECT_FINE"]}>
+                        <div className={`header_menu_list_option${updateMultaMatch ? " located" : ""}`} onClick={() => navigate(APP_ROUTES.updateMulta)}>
+                            <FormattedMessage id="shared.menu.update-fine" />
+                        </div>
+                    </Visible>
+                </div>
             </div>
         </>
     )

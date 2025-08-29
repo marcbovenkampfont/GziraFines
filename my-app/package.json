@@ -7,17 +7,24 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "eslint ./src",
+    "lint:staged": "eslint --cache --max-warnings=0",
     "preview": "vite preview",
     "start": "vite --port 3030 --base /GziraFines/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
+  },
+  "lint-staged": {
+    "(src)/**/*.(ts|tsx)": [
+      "eslint --fix"
+    ]
   },
   "dependencies": {
     "date-fns": "^4.1.0",
     "motion": "^12.23.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-intl": "^7.1.11",
     "react-router-dom": "^7.7.1",
     "react-select": "^5.10.2"
   },

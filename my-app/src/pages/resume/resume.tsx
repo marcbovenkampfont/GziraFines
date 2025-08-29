@@ -54,13 +54,13 @@ export default function Resume() {
     <Page permissions={["VIEW_DASHBOARD"]}>
       <div className='resume-view'>
         <FilterOption
-          title='unpaid'
+          title='shared.filter.unpaid'
           onClick={() => setView(ResumeView.UNPAID)}
           selected={view === ResumeView.UNPAID}
           color='#ADD8E6'
         />
         <FilterOption
-          title='paid'
+          title='shared.filter.paid'
           onClick={() => setView(ResumeView.PAID)}
           selected={view === ResumeView.PAID}
           color='#FFC107'

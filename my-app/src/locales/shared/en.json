@@ -1,0 +1,18 @@
+{
+    "shared.menu.resume": "Summary",
+    "shared.menu.add-fine": "Add Fine",
+    "shared.menu.update-fine": "Update Fine",
+
+    "shared.filter.paid": "PAID",
+    "shared.filter.unpaid": "UNPAID",
+    "shared.filter.deleted": "DELETED",
+
+    "shared.notification.fine.paid.correctly": "Fine paid",
+    "shared.notification.fine.paid.error": "Error updating the fine",
+    "shared.notification.fine.deleted.correctly": "Fine deleted",
+    "shared.notification.fine.deleted.error": "Error updating the fine",
+
+    "shared.status.paid": "Paid",
+    "shared.status.unpaid": "Unpaid",
+    "shared.status.deleted": "Deleted"
+}

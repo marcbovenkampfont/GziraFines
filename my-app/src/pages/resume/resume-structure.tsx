@@ -7,6 +7,7 @@ import { getMoneyFromMulta } from "../../utils/multaCalculation"
 import { useRightMenu } from "../../utils/menuContext"
 import { ResumeView } from "./resume"
 import { AnimatePresence, motion } from "motion/react"
+import { FormattedMessage } from "react-intl"
 
 type ResumeStructureProps = {
     multas: Multa[],
@@ -38,8 +39,8 @@ const ResumeStructure: React.FC<ResumeStructureProps> = ({ view, multas }) => {
             >
                 <div className='resume-multas__total'>
                     {view === ResumeView.UNPAID
-                        ? 'DEPT: '
-                        : 'PAID: '
+                        ? <FormattedMessage id="resume.title.debt" />
+                        : <FormattedMessage id="resume.title.paid" />
                     }<a className='resume-multas__total-price'>{moneyFormat(total)}</a>
                 </div>
                 {multas.length > 0
@@ -50,8 +51,8 @@ const ResumeStructure: React.FC<ResumeStructureProps> = ({ view, multas }) => {
                         ))}
                     </>
                     : view === ResumeView.UNPAID
-                        ? <div>Lucky you, don't have any fine to pay right now</div>
-                        : <div>You didn't pay any fine for now</div>
+                        ? <FormattedMessage id="resume.message.debt" />
+                        : <FormattedMessage id="resume.message.paid" />
                     }
             </motion.div>
         </AnimatePresence>

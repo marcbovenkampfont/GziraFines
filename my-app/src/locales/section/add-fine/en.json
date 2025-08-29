@@ -1,0 +1,11 @@
+{
+    "add-multa.select.rule": "Select the rule violated...",
+    "add-multa.select.player": "Select the player/s...",
+
+    "add-multa.minuts-late": "Minuts late",
+    "add-multa.infraction-date": "Date of the infraction",
+
+    "add-multa.required": "Required field",
+
+    "add-multa.button.add-fine": "Add fine"
+}

@@ -1,0 +1,9 @@
+{
+    "table.header.rule": "Regla infringida",
+    "table.header.cost": "Coste",
+    "table.header.player": "Jugador",
+    "table.header.date": "Fecha",
+    "table.header.late": "Tarde",
+    "table.header.status": "Estado",
+    "table.header.total": "Total"
+}

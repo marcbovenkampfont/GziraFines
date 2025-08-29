@@ -69,19 +69,19 @@ export default function UpdateFine() {
     <Page permissions={["UPDATE_PAID_FINE", "UPDATE_REJECT_FINE"]}>
       <div className='update-filters'>
         <FilterOption
-          title='unpaid'
+          title='shared.filter.unpaid'
           onClick={() => handleChangeView(ResumeView.UNPAID)}
           selected={view === ResumeView.UNPAID}
           color='#ADD8E6'
         />
         <FilterOption
-          title='paid'
+          title='shared.filter.paid'
           onClick={() => handleChangeView(ResumeView.PAID)}
           selected={view === ResumeView.PAID}
           color='#FFC107'
         />
         <FilterOption
-          title='deleted'
+          title='shared.filter.deleted'
           onClick={() => handleChangeView(ResumeView.REJECTED)}
           selected={view === ResumeView.REJECTED}
           color='green'

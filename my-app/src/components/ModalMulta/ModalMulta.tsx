@@ -2,7 +2,7 @@ import './ModalMulta.scss'
 import { useRightMenu } from '../../utils/menuContext.tsx'
 import type { Multa } from '../../../backend/types/readSheet.types.ts'
 import ButtonCustom from '../ButtonCustom/ButtonCustom.tsx'
-import { dateFullFormat, getStatusFromMulta, moneyFormat } from '../../utils/formats.ts'
+import { getStatusFromMulta, moneyFormat } from '../../utils/formats.ts'
 import { useWriteMulta } from '../../../backend/sheet/useAppendMulta.ts'
 import { useAuth } from '../../context/authContext.tsx'
 import { MultaStatus } from '../../shared/types/multa.types.ts'
@@ -11,6 +11,7 @@ import { useState } from 'react'
 import Banner, { type BannerType } from "../../components/Banner/Banner";
 import { AnimatePresence } from "motion/react"
 import Visible from '../Visible/Visible.tsx'
+import { FormattedDate, FormattedMessage, useIntl } from 'react-intl'
 
 export const ModalMultaType = {
   MULTA_RESUME: "resume",
@@ -29,6 +30,8 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
 
   const { updateMulta } = useWriteMulta();
 
+  const intl = useIntl();
+  
   const { player } = useAuth();
   const [banner, setBanner] = useState<BannerType>({message: "", success: false})
 
@@ -46,8 +49,8 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
       return <>
         <MultaStatusBadge status={multaStatus} />
         <div style={{width: '100%', display: 'flex', flexDirection: 'column', gap: '10px'}}>
-          <p style={{padding: '0', margin: '0'}}>PAID TO {multa.paidTo?.name}</p>
-          <p style={{padding: '0', margin: '0'}}>PAID ON {multa.paidOn && dateFullFormat(multa.paidOn)}</p>
+          <p style={{padding: '0', margin: '0'}}><FormattedMessage id="modal.fine.paid-to" values={{ name: multa.paidTo?.name }} /></p>
+          <p style={{padding: '0', margin: '0'}}><FormattedMessage id="modal.fine.paid-on" /><FormattedDate value={multa.paidOn} day='numeric' month='long' year='numeric' /></p>
         </div>
       </>
     }
@@ -75,7 +78,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
       multaToUpdate.paidOn = new Date();
       setIsUpdating(true)
       const multaUpdated = await updateMulta(multaToUpdate)
-      setBanner({message: multaUpdated ? "FINE PAID" : "ERROR UPDATING THE FINE", success: multaUpdated})
+      setBanner({message: intl.formatMessage({ id: multaUpdated ? "shared.notification.fine.paid.correctly" : "shared.notification.fine.paid.error" }), success: multaUpdated})
       setTimeout(() => setBanner({message: "", success: false}), 3000);
 
       setIsUpdating(false)
@@ -89,7 +92,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
       multaToUpdate.rejected = true
       setIsUpdating(true)
       const multaUpdated = await updateMulta(multaToUpdate)
-      setBanner({message: multaUpdated ? "FINE REJECTED" : "ERROR UPDATING THE FINE", success: multaUpdated})
+      setBanner({message: intl.formatMessage({ id: multaUpdated ? "shared.notification.fine.deleted.correctly" : "shared.notification.fine.deleted.error" }), success: multaUpdated})
       setTimeout(() => setBanner({message: "", success: false}), 3000);
       setIsUpdating(false)
 
@@ -103,7 +106,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
   return (
     <div className='modal-multa'>
         <div className='modal-multa-header'>
-            <h3 style={{fontWeight: 500}}>FINE</h3>
+            <h3 style={{fontWeight: 500}}><FormattedMessage id="modal.fine.title" /></h3>
             <ButtonCustom onClick={closeRightMenu}>
                 X
             </ButtonCustom>
@@ -111,17 +114,27 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
         </div>
         {multa &&
             <div className='modal-multa-info'>
-              <h3>TOTAL TO PAY: {moneyFormat(multa.amount)}</h3>
-              <h3>Rule violated</h3>
+              <h3 style={{textTransform: 'uppercase'}}><FormattedMessage id="modal.fine.total-pay" /> {moneyFormat(multa.amount)}</h3>
+              <h3><FormattedMessage id="modal.fine.rule-violated" /></h3>
               <p>{multa.rule.name}</p>
-              <p>Base cost {moneyFormat(multa.rule.cost)} {multa.rule.multiplication && `multiplicated every ${multa.rule.multiplication}'`}</p>
-              <p>On {dateFullFormat(multa.date)}</p>
-
-              <h3>By</h3>
+              <p>
+                <FormattedMessage
+                  id="modal.fine.rule-cost"
+                  values={
+                    {
+                      cost: moneyFormat(multa.rule.cost),
+                      multiplication: multa.rule.multiplication ? "true": "false",
+                      times: multa.rule.multiplication
+                    }
+                  }
+                  />
+              </p>
+              <p><FormattedMessage id="modal.fine.rule-date" /><FormattedDate value={multa.date} day='numeric' month='long' year='numeric' /></p>
+              <h3><FormattedMessage id="modal.fine.by" /></h3>
               <p>{multa.player.name}</p>
 
               <div className="modal-multa-info-status">
-                <h3>Status</h3>
+                <h3><FormattedMessage id="modal.fine.status" /></h3>
                 {getMultaContainer()}
               </div>
 

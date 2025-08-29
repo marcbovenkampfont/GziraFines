@@ -53,7 +53,6 @@ const Layout = ({ children }: Props) => {
                 visible={isRightMenuOpen}
             >
                 <ModalMulta buttons={[]} type={getModalMultaType()}/>
-                {/* <p>HOLA HOLA</p> */}
             </ModalDrawer>
         </>
     )

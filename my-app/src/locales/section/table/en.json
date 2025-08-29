@@ -1,0 +1,9 @@
+{
+    "table.header.rule": "Rule violated",
+    "table.header.cost": "Cost",
+    "table.header.player": "Player",
+    "table.header.date": "Date",
+    "table.header.late": "Late",
+    "table.header.status": "Status",
+    "table.header.total": "Total"
+}
