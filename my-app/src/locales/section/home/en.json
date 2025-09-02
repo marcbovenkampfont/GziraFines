@@ -1,4 +1,5 @@
 {
-    "home.filter.paid": "PAID",
-    "home.filter.unpaid": "UNPAID"
+    "home.welcome-message": "Welcome, {user}",
+    "home.go-resume": "Go to resume",
+    "home.logout": "Logout"
 }

@@ -11,9 +11,25 @@
     align-items: center;
     z-index: 3;
 
-    &_logo {
-        width: 50px;
-        height: 50px;
+    &_logo_container {
+        margin: 0 3%;
+        cursor: pointer;
+
+        &_logo {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    &_settings {
+        margin: 0 3%;
+        border: 2px solid grey;
+        background-color: #FFEB96;
+        border-radius: 8px;
+        color: black;
+        font-weight: bold;
+        padding: 10px;
+        cursor: pointer;
     }
 
     &_menu {

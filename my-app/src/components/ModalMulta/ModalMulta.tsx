@@ -1,5 +1,4 @@
 import './ModalMulta.scss'
-import { useRightMenu } from '../../utils/menuContext.tsx'
 import type { Multa } from '../../../backend/types/readSheet.types.ts'
 import ButtonCustom from '../ButtonCustom/ButtonCustom.tsx'
 import { getStatusFromMulta, moneyFormat } from '../../utils/formats.ts'
@@ -12,6 +11,7 @@ import Banner, { type BannerType } from "../../components/Banner/Banner";
 import { AnimatePresence } from "motion/react"
 import Visible from '../Visible/Visible.tsx'
 import { FormattedDate, FormattedMessage, useIntl } from 'react-intl'
+import { useModal } from '../../utils/menuContext.tsx'
 
 export const ModalMultaType = {
   MULTA_RESUME: "resume",
@@ -24,9 +24,11 @@ interface ModalMultaProps {
   buttons: {label: string, onClick: () => void}[]
 }
 
-const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RESUME }) => {
+const ModalMulta: React.FC<ModalMultaProps> = () => {
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
-  const { closeRightMenu, rightMenuData } = useRightMenu();
+
+  const { modalData, closeRightMenu } = useModal();
+  
 
   const { updateMulta } = useWriteMulta();
 
@@ -35,7 +37,7 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
   const { player } = useAuth();
   const [banner, setBanner] = useState<BannerType>({message: "", success: false})
 
-  const multa: Multa = rightMenuData
+  const multa: Multa | null = modalData
   if (!multa) {
     return <p>Nada</p>
   }
@@ -110,7 +112,6 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
             <ButtonCustom onClick={closeRightMenu}>
                 X
             </ButtonCustom>
-
         </div>
         {multa &&
             <div className='modal-multa-info'>
@@ -141,28 +142,26 @@ const ModalMulta: React.FC<ModalMultaProps> = ({ type = ModalMultaType.MULTA_RES
             </div>
         }
 
-        {type === ModalMultaType.MULTA_UPDATE &&
-          <div className='modal-multa-buttons'>
-            <Visible whenPermission={["UPDATE_PAID_FINE"]}>
-              {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
-                <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("paid")}>
-                  PAID
-                </ButtonCustom>}
-            </Visible>
-            <Visible whenPermission={["UPDATE_REJECT_FINE"]}>
-              {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
-                <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("rejected")}>
-                  DELETED
-                </ButtonCustom>}
-            </Visible>
-          </div>
-        }
+        <div className='modal-multa-buttons'>
+          <Visible whenPermission={["UPDATE_PAID_FINE"]}>
+            {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
+              <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("paid")}>
+                PAID
+              </ButtonCustom>}
+          </Visible>
+          <Visible whenPermission={["UPDATE_REJECT_FINE"]}>
+            {getStatusFromMulta(multa) === MultaStatus.NOT_PAID && 
+              <ButtonCustom disabled={isUpdating} border={true} onClick={() => handleUpdateMulta("rejected")}>
+                DELETED
+              </ButtonCustom>}
+          </Visible>
+        </div>
 
         <AnimatePresence mode="wait">
-            {banner.message && 
-              <Banner key="banner" message={banner.message} success={banner.success} />
-            }
-          </AnimatePresence>
+          {banner.message && 
+            <Banner key="banner" message={banner.message} success={banner.success} />
+          }
+        </AnimatePresence>
     </div>
   )
 }

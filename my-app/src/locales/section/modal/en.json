@@ -7,5 +7,7 @@
     "modal.fine.by": "By",
     "modal.fine.status": "Status",
     "modal.fine.paid-to": "Paid to {name}",
-    "modal.fine.paid-on": "Paid on "
+    "modal.fine.paid-on": "Paid on ",
+
+    "modal.settings.title": "Settings"
 }

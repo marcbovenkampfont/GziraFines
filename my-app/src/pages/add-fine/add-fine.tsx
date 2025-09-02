@@ -13,6 +13,7 @@ import Page from "../../components/Page/Page";
 import { getTitleName } from "../../utils/formats";
 import ButtonCustom from "../../components/ButtonCustom/ButtonCustom";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useAuth } from "../../context/authContext";
 
 interface FormData {
   player: Player[] | undefined;
@@ -28,6 +29,12 @@ const AddFine: React.FC = () => {
     minsLate: 0,
     date: null,
   });
+  
+  const { player } = useAuth()
+
+  if (!player) {
+    return <p>You are not logged in</p>
+  }
 
   const intl = useIntl();
 

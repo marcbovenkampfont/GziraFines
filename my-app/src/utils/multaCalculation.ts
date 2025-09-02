@@ -1,3 +1,4 @@
+import type { Multa } from "../../backend/types/readSheet.types";
 import { players } from "../shared/constants/playersList";
 import { rulesList } from "../shared/constants/rulesList";
 import type { Player } from "../shared/types/players.types";
@@ -17,4 +18,12 @@ export const getMoneyFromMulta = (rule: Rule, minsLate?: number): number => {
     return rule.cost * multiplicator;
   }
   return rule.cost;
+}
+
+export const getKPI = (multas: Multa[]): number => {
+  let total = 0;
+  multas.forEach((multa) => {
+    total += multa.amount;
+  })
+  return total
 }

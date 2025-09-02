@@ -1,14 +1,19 @@
 // Spinner.tsx
 import './Loader.scss'
-const Loader = () => {
+
+type LoaderProps = {
+  size?: "extra-small" | "small" | "medium" | "large"
+}
+
+const Loader: React.FC<LoaderProps> = ({ size = "medium" }) => {
   return (
     <div style={{
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      // height: '100px',
+      margin: 'auto'
     }}>
-      <div className="spinner" />
+      <div className={`spinner spinner-${size}`} />
     </div>
   )
 }

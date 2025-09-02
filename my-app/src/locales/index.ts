@@ -11,6 +11,14 @@ const messages = {
     ...shared.en,
     ...pages.en,
   },
+  pt: {
+    ...shared.pt,
+    ...pages.pt,
+  },
+  it: {
+    ...shared.it,
+    ...pages.it,
+  },
 };
 
 export const getLocales = () => Object.keys(messages);

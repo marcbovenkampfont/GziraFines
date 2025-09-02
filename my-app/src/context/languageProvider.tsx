@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { IntlProvider } from "react-intl";
 import messages from "../locales";
 
-type Locale = "es" | "en";
+type Locale = "es" | "en" | "it" | "pt";
 
 interface LanguageContextProps {
   locale: Locale;
@@ -21,7 +21,7 @@ const getBrowserLocale = (supportedLocales: Locale[], fallback: Locale): Locale 
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const supportedLocales: Locale[] = ["es", "en"];
+  const supportedLocales: Locale[] = ["es", "en", "it", "pt"];
   const fallback: Locale = "en";
 
   const [locale, setLocale] = useState<Locale>(() => {

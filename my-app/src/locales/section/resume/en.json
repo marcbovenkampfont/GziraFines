@@ -1,6 +1,6 @@
 {
-    "resume.title.debt": "DEBT:",
-    "resume.title.paid": "PAID:",
+    "resume.title.debt": "Debt",
+    "resume.title.paid": "Paid",
 
     "resume.message.debt": "Lucky you! You don't have any fine to pay right now",
     "resume.message.paid": "You didn't pay any fine for now"

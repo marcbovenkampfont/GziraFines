@@ -2,30 +2,28 @@ import { useEffect, useState } from "react"
 import type { Multa } from "../../../backend/types/readSheet.types"
 import MultaLine, { MultaType } from "../../components/MultaLine/MultaLine"
 import MultaLineHeader from "../../components/MultaLine/MultaLineHeader"
-import { moneyFormat } from "../../utils/formats"
-import { getMoneyFromMulta } from "../../utils/multaCalculation"
-import { useRightMenu } from "../../utils/menuContext"
 import { ResumeView } from "./resume"
 import { AnimatePresence, motion } from "motion/react"
 import { FormattedMessage } from "react-intl"
+import { useModal } from "../../utils/menuContext"
+import { ModalType } from "../../shared/types/modalMulta.types"
+import Loader from "../../components/Loader/Loader"
 
 type ResumeStructureProps = {
     multas: Multa[],
     view: ResumeView,
+    loading: boolean
 }
 
-const ResumeStructure: React.FC<ResumeStructureProps> = ({ view, multas }) => {
-    const [total, setTotal] = useState(0);
+const ResumeStructure: React.FC<ResumeStructureProps> = ({ view, multas, loading }) => {
 
-    const { openRightMenu } = useRightMenu();
+    const { openRightMenu } = useModal()
+
+    const [multasToShow, setMultasToShow] = useState<Multa[]>([])
 
     useEffect(() => {
-        let total = 0;
-        multas.filter((m) => m.paid === false).forEach((multa) => {
-            total += getMoneyFromMulta(multa.rule, multa.minsLate);
-        })
-        setTotal(total)
-    }, [multas])
+        setMultasToShow(multas.filter((m) => view === ResumeView.PAID ? m.paid === true : m.paid === false))
+    }, [view, multas])
       
     return (
         <AnimatePresence mode="wait" >
@@ -37,23 +35,22 @@ const ResumeStructure: React.FC<ResumeStructureProps> = ({ view, multas }) => {
                 exit={{ opacity: 0, x: view === ResumeView.PAID ? 0 : 0 }}
                 transition={{ duration: 0.2 }}
             >
-                <div className='resume-multas__total'>
-                    {view === ResumeView.UNPAID
-                        ? <FormattedMessage id="resume.title.debt" />
-                        : <FormattedMessage id="resume.title.paid" />
-                    }<a className='resume-multas__total-price'>{moneyFormat(total)}</a>
-                </div>
-                {multas.length > 0
-                    ? <>
-                        <MultaLineHeader type={MultaType.resume} />
-                        {multas.map((multa) => (
-                            <MultaLine key={multa.player + '' + multa.rule + multa.date} onClick={() => openRightMenu(multa, "multa")} multa={multa} type={MultaType.resume} />
-                        ))}
+                {loading
+                    ? <Loader size="medium" />
+                    :<>
+                        {multasToShow.length > 0
+                            ? <>
+                                <MultaLineHeader type={MultaType.resume} />
+                                {multasToShow.map((multa) => (
+                                    <MultaLine key={'multa' + multa.id} onClick={() => openRightMenu(ModalType.MULTA_RESUME, multa )} multa={multa} type={MultaType.resume} />
+                                ))}
+                            </>
+                            : view === ResumeView.UNPAID
+                                ? <FormattedMessage id="resume.message.debt" />
+                                : <FormattedMessage id="resume.message.paid" />
+                            }
                     </>
-                    : view === ResumeView.UNPAID
-                        ? <FormattedMessage id="resume.message.debt" />
-                        : <FormattedMessage id="resume.message.paid" />
-                    }
+                }
             </motion.div>
         </AnimatePresence>
     )

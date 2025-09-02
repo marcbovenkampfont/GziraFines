@@ -1,0 +1,19 @@
+{
+    "shared.menu.resume": "Riepilogo",
+    "shared.menu.add-fine": "Nuova Multa",
+    "shared.menu.update-fine": "Modifica Multa",
+    "shared.menu.reports": "Report",
+
+    "shared.filter.paid": "PAGATO",
+    "shared.filter.unpaid": "NON PAGO",
+    "shared.filter.deleted": "ELIMINATO",
+
+    "shared.notification.fine.paid.correctly": "Multa pagata",
+    "shared.notification.fine.paid.error": "Errore nell’aggiornare la multa",
+    "shared.notification.fine.deleted.correctly": "Multa eliminata",
+    "shared.notification.fine.deleted.error": "Errore nell’aggiornare la multa",
+
+    "shared.status.paid": "Pagato",
+    "shared.status.unpaid": "Non pago",
+    "shared.status.deleted": "Eliminato"
+}

@@ -5,7 +5,7 @@ import { HashRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../context/authContext.tsx'
 import Layout from '../layout/layout.tsx'
 import { GoogleAuthProvider } from '../auth/GoogleAuthProvider.tsx';
-import { RightMenuProvider } from '../utils/menuContext.tsx';
+import { ModalProvider } from '../utils/menuContext.tsx';
 import { LanguageProvider } from '../context/languageProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -13,11 +13,11 @@ createRoot(document.getElementById('root')!).render(
       <Router>
         <GoogleAuthProvider>
           <LanguageProvider>
-            <RightMenuProvider>
+            <ModalProvider>
               <Layout>
                 <AppRoutes />
               </Layout>
-            </RightMenuProvider>
+            </ModalProvider>
           </LanguageProvider>
         </GoogleAuthProvider>
       </Router>
