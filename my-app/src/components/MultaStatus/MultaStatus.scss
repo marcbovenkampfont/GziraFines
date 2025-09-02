@@ -3,7 +3,7 @@
   border-radius: 3px;
   font-weight: 500;
   display: inline-block;
-//   border: 1px solid gray;
+  text-transform: uppercase;
 
   &.paid {
     background-color: #dcfce7; // Tailwind's green-100

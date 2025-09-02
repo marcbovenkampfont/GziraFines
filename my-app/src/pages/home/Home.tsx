@@ -6,6 +6,7 @@ import { APP_ROUTES } from '../../shared/constants/appRoutes';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/Page/Page';
 import ButtonCustom from '../../components/ButtonCustom/ButtonCustom';
+import { FormattedMessage } from 'react-intl';
 
 function Home() {
 
@@ -21,12 +22,14 @@ function Home() {
       </div>
       {player !== null ?
       <div style={{display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center', textAlign: 'center'}}>
-        <h3>Welcome, {player.name}</h3>
+        <h3>
+          <FormattedMessage id="home.welcome-message" values={{ user: player.name }} />
+        </h3>
         <ButtonCustom border={true} onClick={() => navigate(APP_ROUTES.resume)}>
-          GO RESUME
+          <FormattedMessage id="home.go-resume" />
         </ButtonCustom>
         <ButtonCustom border={true} onClick={() => logout()}>
-          LOGOUT
+          <FormattedMessage id="home.logout" />
         </ButtonCustom>
       </div>
       : <Login/>

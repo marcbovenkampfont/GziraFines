@@ -1,0 +1,11 @@
+{
+    "add-multa.select.rule": "Selecione a regra violada...",
+    "add-multa.select.player": "Selecione o(s) jogador(es)...",
+
+    "add-multa.minuts-late": "Minutos de atraso",
+    "add-multa.infraction-date": "Data da infração",
+
+    "add-multa.required": "Campo obrigatório",
+
+    "add-multa.button.add-fine": "Adicionar multa"
+}

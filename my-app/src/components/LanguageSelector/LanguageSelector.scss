@@ -1,0 +1,29 @@
+.language-selector {
+  display: inline-block;
+
+  select {
+    appearance: none;         // elimina estilos nativos
+    -webkit-appearance: none; // Safari
+    -moz-appearance: none;    // Firefox
+
+    border: 1px solid #9ca3af; 
+    border: none;
+    border-bottom: 1px solid #ADD8E6;
+    border-top: 1px solid #ADD8E6;
+    border-radius: 0;
+    background: transparent;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+
+    &:focus {
+      outline: none;
+      color: #ADD8E6;
+      background-color: #800000;
+    }
+  }
+
+  
+}

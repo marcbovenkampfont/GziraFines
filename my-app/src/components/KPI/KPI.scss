@@ -1,0 +1,27 @@
+.kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 140px;
+    height: 85px;
+    text-align: center;
+
+    .kpi_title {
+        font-size: 12px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .kpi_value {
+        font-size: 30px;
+        height: 45px;
+
+        &-loader {
+            height: 45px;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import "./SelectCustom.scss";
+import { FormattedMessage } from "react-intl";
 
 type SelectProps<T> = {
   options: T[];
@@ -7,7 +8,7 @@ type SelectProps<T> = {
   getOptionValue: (option: T) => string;
   onChange: (selected: T | T[] | undefined) => void;
   value?: T | T[];
-  placeholder?: string;
+  placeholder?: React.ReactNode;
   disabled?: boolean;
   isMulti?: boolean;
 };
@@ -18,7 +19,7 @@ function Select<T>({
   getOptionValue,
   onChange,
   value,
-  placeholder = "Select an option...",
+  placeholder = <FormattedMessage id="shared.select.default" />,
   disabled = false,
   isMulti = false,
 }: SelectProps<T>) {

@@ -1,0 +1,13 @@
+{
+    "modal.fine.title": "Fine",
+    "modal.fine.total-pay": "Total to pay:",
+    "modal.fine.rule-violated": "Violated rule",
+    "modal.fine.rule-cost": "Base cost: {cost}{multiplication, select, true { multiplicated every {times}''} other {}}",
+    "modal.fine.rule-date": "On ",
+    "modal.fine.by": "By",
+    "modal.fine.status": "Status",
+    "modal.fine.paid-to": "Paid to {name}",
+    "modal.fine.paid-on": "Paid on ",
+
+    "modal.settings.title": "Settings"
+}

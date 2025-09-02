@@ -1,48 +1,51 @@
-import React, { createContext, useContext, useState, useMemo } from "react";
+import React, { createContext, useContext, useState } from "react";
+import { ModalType } from "../shared/types/modalMulta.types";
 
-interface RigthMenuContextType<T = any> {
-  openRightMenu: (rightMenuData?: T, setType?: "multa") => void;
-  closeRightMenu: () => void;
+type ModalPayload = any;
+
+type ModalContextType = {
+  modalType: ModalType;
+  modalData: ModalPayload | null;
   isRightMenuOpen: boolean;
-  rightMenuData: T | null;
-  rightMenuType: "multa" | null;
-}
-
-const RightMenuContext = createContext<RigthMenuContextType | undefined>(undefined);
-
-export const useRightMenu = <T = any,>(): RigthMenuContextType<T> => {
-  const context = useContext(RightMenuContext);
-  if (!context) {
-    throw new Error("useRightMenu must be used within a RightMenuProvider");
-  }
-  return context;
+  openRightMenu: (type: ModalType, data?: ModalPayload) => void;
+  closeRightMenu: () => void;
+  resetModal: () => void;     // inicia animación de cierre (no borra datos)
 };
 
-export const RightMenuProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isRightMenuOpen, setIsRightMenuOpen] = useState(false);
-  const [rightMenuData, setRightMenuData] = useState<any>(null);
-  const [rightMenuType, setRightMenuType] = useState<any>(null);
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-  const openRightMenu = (newRightMenuData?: any, setType?: "multa") => {
-    if (newRightMenuData) setRightMenuData(newRightMenuData);
-    setRightMenuType(setType);
-    setIsRightMenuOpen(true);
+export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isRightMenuOpen, setRightMenuOpen] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
+  const [modalData, setModalData] = useState<any>(null);
+
+  const openRightMenu = (type: ModalType, data?: any) => {
+    setModalType(type);
+    setModalData(data ?? null);
+    setRightMenuOpen(true);
   };
 
   const closeRightMenu = () => {
-    setIsRightMenuOpen(false);
+    console.log("CLosing rightMenu")
+    setRightMenuOpen(false);
   };
 
-  const contextValue = useMemo(
-    () => ({
-      openRightMenu,
-      closeRightMenu,
-      isRightMenuOpen,
-      rightMenuData,
-      rightMenuType,
-    }),
-    [isRightMenuOpen, rightMenuData, rightMenuType],
-  );
+  const resetModal = () => {
+    setModalType(ModalType.NONE);
+    setModalData(null);
+  };
 
-  return <RightMenuContext.Provider value={contextValue}>{children}</RightMenuContext.Provider>;
+  return (
+    <ModalContext.Provider
+      value={{ isRightMenuOpen, modalType, modalData, openRightMenu, closeRightMenu, resetModal }}
+    >
+      {children}
+    </ModalContext.Provider>
+  );
+};
+
+export const useModal = () => {
+  const ctx = useContext(ModalContext);
+  if (!ctx) throw new Error("useModal debe usarse dentro de ModalProvider");
+  return ctx;
 };

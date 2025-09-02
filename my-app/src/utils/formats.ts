@@ -3,7 +3,7 @@ import { MultaStatus } from "../shared/types/multa.types"
 import { PersonRole, type Player } from "../shared/types/players.types"
 
 export const moneyFormat = (value: number): string => {
-    return value + ' €'
+    return value === 0 ? "-" : value + ' €'
 }
 
 export const minutFormat = (value?: number): string => {

@@ -1,0 +1,13 @@
+{
+    "modal.fine.title": "Multa",
+    "modal.fine.total-pay": "Total a pagar:",
+    "modal.fine.rule-violated": "Norma infringida",
+    "modal.fine.rule-cost": "Coste base: {cost}{multiplication, select, true { multiplicado cada {times}''} other {}}",
+    "modal.fine.rule-date": "El ",
+    "modal.fine.by": "Por",
+    "modal.fine.status": "Estado",
+    "modal.fine.paid-to": "Pagado a {name}",
+    "modal.fine.paid-on": "Pagado el ",
+
+    "modal.settings.title": "Configuración"
+}

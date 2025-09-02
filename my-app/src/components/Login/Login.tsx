@@ -7,6 +7,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../shared/constants/appRoutes";
 import ButtonCustom from "../ButtonCustom/ButtonCustom";
+import { FormattedMessage } from "react-intl";
 
 export const Login: React.FC = () => {
     const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>(undefined);
@@ -47,14 +48,14 @@ export const Login: React.FC = () => {
 
     return (
         <div className="login-container">
-            Who are you?
+            <FormattedMessage id="login.who-are-you" />
             <Select<Player>
                 options={players}
                 getOptionLabel={(player) => player.personRole === PersonRole.player ? `${player.name} - #${player.number}` : `${player.name}`}
                 getOptionValue={(player) => player.name}
                 onChange={handleChange}
                 value={selectedPlayer}
-                placeholder="Select yourself..."
+                placeholder={<FormattedMessage id="login.choose-yourself" />}
             />
             {selectedPlayer && selectedPlayer.role.some((r) => ["ADMIN", "MODERATOR"].includes(r)) &&
                 <input
@@ -66,7 +67,7 @@ export const Login: React.FC = () => {
                     />
             }
             <ButtonCustom border={true} onClick={handleClickLogin} disabled={isDisableButton} >
-                LOGIN
+                <FormattedMessage id="login.login" />
             </ButtonCustom>
         </div>
     )

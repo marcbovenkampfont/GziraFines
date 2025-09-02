@@ -33,3 +33,26 @@
         }
     }
 }
+
+.resume_kpi_subtitle {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    align-items: center;
+
+    &.bold {
+        font-weight: bold;
+    }
+    
+    &.good {
+        color: #4dff91;
+    }
+
+    &.medium {
+        color: #ffc94d;
+    }
+
+    &.wrong {
+        color: #ff4d4d;
+    }
+}

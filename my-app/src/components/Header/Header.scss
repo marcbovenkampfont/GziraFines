@@ -11,9 +11,25 @@
     align-items: center;
     z-index: 3;
 
-    &_logo {
-        width: 50px;
-        height: 50px;
+    &_logo_container {
+        margin: 0 3%;
+        cursor: pointer;
+
+        &_logo {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    &_settings {
+        margin: 0 3%;
+        border: 2px solid grey;
+        background-color: #FFEB96;
+        border-radius: 8px;
+        color: black;
+        font-weight: bold;
+        padding: 10px;
+        cursor: pointer;
     }
 
     &_menu {
@@ -22,20 +38,26 @@
         width: 100%;
         left: 0;
         border-bottom: 1px solid black;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
         background: linear-gradient(to right, #ADD8E6 0%, #800000 25%, #800000 50%, #800000 75%, #ADD8E6 100%);
         z-index: 4;
+        
+        &_list {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
 
-
-        &_option {
-            cursor: pointer;
-            width: 100px;
-            padding: 5px 0;
-            font-weight: 500;
-            white-space: nowrap;
-            text-align: center;
+            &_option {
+                flex: 1;
+                cursor: pointer;
+                padding: 5px 0;
+                font-weight: 600;
+                white-space: nowrap;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 13px;
+            }
         }
 
         .located {

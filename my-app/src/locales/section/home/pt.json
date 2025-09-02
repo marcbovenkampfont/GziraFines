@@ -1,0 +1,5 @@
+{
+    "home.welcome-message": "Bem-vindo, {user}",
+    "home.go-resume": "Ir ao resumo",
+    "home.logout": "Sair"
+}

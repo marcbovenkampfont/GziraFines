@@ -2,9 +2,11 @@ import { useMatch } from "react-router-dom";
 import { APP_ROUTES } from "../shared/constants/appRoutes";
 import './layout.scss'
 import Header from "../components/Header/Header";
-import { useRightMenu } from "../utils/menuContext";
 import ModalDrawer from "../components/ModalDrawer/ModalDrawer";
 import ModalMulta, { ModalMultaType } from "../components/ModalMulta/ModalMulta";
+import { useModal } from "../utils/menuContext";
+import { ModalType } from "../shared/types/modalMulta.types";
+import SettingsModal from "../components/SettingsModal/SettingsModal";
 
 
 type Props = {
@@ -13,23 +15,26 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
 
-    const { isRightMenuOpen } = useRightMenu();
+    const { modalType, isRightMenuOpen } = useModal();
 
+    const renderModal = () => {
+        switch (modalType) {
+        case ModalType.MULTA_RESUME:
+            return <ModalMulta type={ModalMultaType.MULTA_RESUME} buttons={[]} />;
+        case ModalType.MULTA_UPDATE:
+            return <ModalMulta type={ModalMultaType.MULTA_UPDATE} buttons={[]} />;
+        case ModalType.SETTINGS:
+            return <SettingsModal />;
+        default:
+            return null;
+        }
+    };
 
     // const navigate = useNavigate();
     const homeMatch = useMatch(APP_ROUTES.home);
-    const resumeMatch = useMatch(APP_ROUTES.resume);
+    // const resumeMatch = useMatch(APP_ROUTES.resume);
     // const addMultaMatch = useMatch(APP_ROUTES.addMulta);
-    const updateMultaMatch = useMatch(APP_ROUTES.updateMulta);
-
-
-    const getModalMultaType = () => {
-        if (resumeMatch) {
-            return ModalMultaType.MULTA_RESUME
-        } else if (updateMultaMatch) {
-            return ModalMultaType.MULTA_UPDATE
-        }
-    }
+    // const updateMultaMatch = useMatch(APP_ROUTES.updateMulta);
 
     return (
         <>
@@ -52,8 +57,7 @@ const Layout = ({ children }: Props) => {
                 placement="right"
                 visible={isRightMenuOpen}
             >
-                <ModalMulta buttons={[]} type={getModalMultaType()}/>
-                {/* <p>HOLA HOLA</p> */}
+                {renderModal()}
             </ModalDrawer>
         </>
     )
